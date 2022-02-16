@@ -1,0 +1,13 @@
+<div class="row padd-lrb toggle-block">
+    <span class="toggle-icon " (click)="toggleFunction()" [ngClass]="{'left2': toggleFlag,'left40': !toggleFlag}">
+        <i class="fa fa-chevron-left" [ngClass]="{'fa-chevron-right': toggleFlag,'fa-chevron-left': !toggleFlag}"></i></span>
+    <div class="col-4 padding-l-40" [hidden]="toggleFlag">
+        
+        <app-tacalculator-input-form ></app-tacalculator-input-form>
+
+    </div>
+    <div class="col-8 background-white" [ngClass]="{'col-12': toggleFlag,'col-8': !toggleFlag}">
+        <app-tacalculator-message></app-tacalculator-message>
+
+    </div>
+</div>

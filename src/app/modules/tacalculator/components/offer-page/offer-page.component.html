@@ -1,0 +1,200 @@
+<div class="OfferPage">
+    <p class="offer-tab-title">Select an Affiliation Model and a Term to generate the offers.</p>
+    <div class="row">
+        <div class="col-12 btn-section">
+           
+            <div class="p-2 pl-0">
+                
+                <button *ngIf="offerOutput?.length > 0" class="btn btn-primary btn-claculate" type="submit" [disabled]="!isButtonDisabled || isButtonDisabledFromOffer" (click)="calculate()">
+                    CALCULATE
+                </button>  
+            </div>
+            <div class="p-2">
+                <span *ngIf="offerOutput?.length > 0" class="hand-cursor" (click)="clearForm()">Clear All</span>                
+            </div>
+
+            <!-- <div class="p-2 text-right">
+                <span class="hand-cursor" (click)="exportPDF()">Export PDF</span>                
+            </div> -->
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-right">
+            <a type="button" class="btn export-modal" [ngClass]="!exportLinkEnabled ? 'disabled' : ''" (click)="openExportModal()">Export to PDF</a>
+        </div>
+    </div>    
+        
+        <div class="error-container" *ngIf="combinationError == true && duplicateCombination == false">
+            <span class="error-custom-msg top-0"> Please choose an Affiliation Model and a Note Term</span>
+        </div>
+        <div class="error-container" *ngIf="duplicateCombination == true && combinationError == false">
+            <span class="error-custom-msg top-0"> You have already selected this Affiliation Model and Note Term</span>
+        </div>
+        <div class="row">
+        <div class="col-12">
+            <dx-data-grid #gridContainer
+                id="gridContainer"
+                class="gridContainerOC"
+                [dataSource]="offerOutput"
+                [showColumnLines]="false"
+                [showRowLines]="true"
+                [showBorders]="true"
+                [rowAlternationEnabled]="false"
+                [columnAutoWidth]="false" 
+                [showColumnHeaders]="false"
+                >
+
+                <dxo-paging [enabled]="false"></dxo-paging>
+
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                             dataField="rowName" 
+                             [width]="300"
+                             [fixed]="true" fixedPosition="left"
+                             alignment="left">
+                </dxi-column>
+
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                            dataField="value1"
+                            alignment="right"
+                            cellTemplate="AM1"
+                            > 
+                            <div *dxTemplate="let am of 'AM1'" >
+                                <div *ngIf="am.data.rowName == 'Offers to Export to PDF'" class="option">
+                                    <input type="checkbox" [disabled]="!checkboxEnabled1" [(ngModel)]="corpHosCheckboxCol1" [value]="corpHosCheckboxCol1" (change)="checkboxValueChanged($event, 'column1')">
+                                </div>
+                                <div *ngIf="am.data.rowName == 'Affiliation Model' || am.data.rowName == 'Note Term'" [ngClass]="am.data.value1Error ||  am.data.value1DupError? 'error-style':''">
+                                    <!-- <div *ngIf="am.data.rowName == 'Affiliation Model'" class="option">
+                                        <input type="checkbox" [disabled]="!checkboxEnabled1" [(ngModel)]="corpHosCheckboxCol1" [value]="corpHosCheckboxCol1" (change)="checkboxValueChanged($event, 'column1')">
+                                    </div> -->
+                                    <div class="dx-fieldset">
+                                        <div class="dx-field">
+                                            <div class="dx-field-value">
+                                                <dx-select-box [dataSource]="am.data.dropdownObj1"
+                                                                placeholder="{{am.data.rowName == 'Affiliation Model' ? 'Select a Model' : 'Select a Term'}}"
+                                                               displayExpr="name"
+                                                               valueExpr="id"
+                                                               [(ngModel)]="am.data.value1"
+                                                               (onValueChanged)="dropdownValueChanged($event, am.data)"
+                                                               class="drp TA-down-arrow"
+                                                               >                                                   
+                                                </dx-select-box>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div *ngIf="am.data.rowName != 'Affiliation Model' && am.data.rowName != 'Note Term' && am.data.rowName != 'Payout %' && am.data.rowName != 'Offers to Export to PDF'">
+                                    
+                                    <span>{{am.data.value1 === '' ? '-' : am.data.value1}}</span>
+
+                                </div>
+                                <div *ngIf="am.data.rowName == 'Payout %'">
+                                   
+                                    <span>{{am.data.value1 === '' ? '-' : 'Standard Grid'}}</span>
+
+                                </div>
+                            </div> 
+                                     
+                </dxi-column>
+
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                            dataField="value2"
+                            alignment="right"
+                            
+                            cellTemplate="AM2"
+                            > 
+                            <div *dxTemplate="let am of 'AM2'" >
+                                <div *ngIf="am.data.rowName == 'Offers to Export to PDF'" class="option">
+                                    <input type="checkbox" [disabled]="!checkboxEnabled2" [(ngModel)]="corpHosCheckboxCol2" [value]="corpHosCheckboxCol2" (change)="checkboxValueChanged($event, 'column2')">
+                                </div>
+                                <div *ngIf="am.data.rowName == 'Affiliation Model' || am.data.rowName == 'Note Term'" [ngClass]="am.data.value2Error || am.data.value2DupError ? 'error-style':''">
+                                    <!-- <div *ngIf="am.data.rowName == 'Affiliation Model'" class="option">
+                                        <input type="checkbox" [disabled]="!checkboxEnabled2" [(ngModel)]="corpHosCheckboxCol2" [value]="corpHosCheckboxCol2" (change)="checkboxValueChanged($event, 'column2')">
+                                    </div> -->
+                                    <div class="dx-fieldset">
+                                        <div class="dx-field">
+                                            <div class="dx-field-value">
+                                                <dx-select-box [dataSource]="am.data.dropdownObj2"
+                                                                placeholder="{{am.data.rowName == 'Affiliation Model' ? 'Select a Model' : 'Select a Term'}}"
+                                                               displayExpr="name"
+                                                               valueExpr="id"
+                                                               [(ngModel)]="am.data.value2"
+                                                               (onValueChanged)="dropdownValueChanged($event, am.data)"
+                                                               class="drp TA-down-arrow"
+                                                               >                                                   
+                                                </dx-select-box>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="am.data.rowName != 'Affiliation Model' && am.data.rowName != 'Note Term' && am.data.rowName != 'Payout %' && am.data.rowName != 'Offers to Export to PDF'">
+                                    
+                                    <span>{{am.data.value2 === '' ? '-' : am.data.value2}}</span>
+
+                                </div>
+                                <div *ngIf="am.data.rowName == 'Payout %'">
+                                   
+                                    <span>{{am.data.value2 === '' ? '-' : 'Standard Grid'}}</span>
+
+                                </div>
+                            </div>             
+                </dxi-column>
+
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                            dataField="value3"
+                            alignment="right"
+                            
+                            cellTemplate="AM3"
+                            > 
+                            <div *dxTemplate="let am of 'AM3'" >
+                                <div *ngIf="am.data.rowName == 'Offers to Export to PDF'" class="option">
+                                    <input type="checkbox" [disabled]="!checkboxEnabled3" [(ngModel)]="corpHosCheckboxCol3" [value]="corpHosCheckboxCol3" (change)="checkboxValueChanged($event, 'column3')">
+                                </div>
+                                <div *ngIf="am.data.rowName == 'Affiliation Model' || am.data.rowName == 'Note Term'" [ngClass]="am.data.value3Error || am.data.value3DupError ? 'error-style':''">
+                                    <!-- <div *ngIf="am.data.rowName == 'Affiliation Model'" class="option">
+                                        <input type="checkbox" [disabled]="!checkboxEnabled3" [(ngModel)]="corpHosCheckboxCol3" [value]="corpHosCheckboxCol3" (change)="checkboxValueChanged($event, 'column3')">
+                                    </div> -->
+                                    <div class="dx-fieldset">
+                                        <div class="dx-field">
+                                            <div class="dx-field-value">
+                                                <dx-select-box [dataSource]="am.data.dropdownObj3"
+                                                                placeholder="{{am.data.rowName == 'Affiliation Model' ? 'Select a Model' : 'Select a Term'}}"
+                                                               displayExpr="name"
+                                                               valueExpr="id"
+                                                               [(ngModel)]="am.data.value3"
+                                                               (onValueChanged)="dropdownValueChanged($event, am.data)"
+                                                               class="drp TA-down-arrow"
+                                                               >                                                   
+                                                </dx-select-box>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="am.data.rowName != 'Affiliation Model' && am.data.rowName != 'Note Term' && am.data.rowName != 'Payout %' && am.data.rowName != 'Offers to Export to PDF'">
+                                    
+                                    <span>{{am.data.value3 === '' ? '-' : am.data.value3}}</span>
+
+                                </div>
+                                <div *ngIf="am.data.rowName == 'Payout %'">
+                                   
+                                    <span>{{am.data.value3 === '' ? '-' : 'Standard Grid'}}</span>
+
+                                </div>
+                            </div>             
+                </dxi-column>
+                
+            </dx-data-grid>
+        </div>
+    </div>
+    <div class="row bottom-disclaimer" *ngIf="checkboxEnabled">
+        <span>The above is intended solely for purposes of discussion and is considered illustrative. This is not intended, nor should it be construed as, a legally binding obligation or a finalized commitment to provide transition assistance. The above does not purport to summarize all the terms, conditions and other provisions with respect to the transaction referred to herein, and all terms referred to herein are subject to change based on, AUM and GDC reporting, prevailing market conditions, as well as other factors that are to be considered in LPL’s sole discretion.</span>
+    </div>
+    
+</div>
+

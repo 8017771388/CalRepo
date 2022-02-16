@@ -1,0 +1,55 @@
+<div class="tablerelationship-form form-group">
+  <form #tableRelationShipForm="ngForm">
+    <div class="container">
+      <div class="row form-header">
+        <div class="col-5">
+          <h6>Workflow &rarr; Assumption Tables Relationships</h6>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-5">
+          <mat-form-field appearance="fill" [formGroup]="selectAllTablesForm">
+            <mat-label>Tables</mat-label>
+            <mat-select formControlName="selectAllTablesControl" multiple>
+              <mat-option #allTablesSelected (click)="toggleAllTablesSelection()" value="0">Select All</mat-option>
+              <mat-optgroup *ngFor="let category of categories" label= {{category.name}}>
+                <ng-container *ngFor="let table of tables">
+                  <mat-option value={{table.id}} (onSelectionChange)="TablesSelected($event)" *ngIf="(category.id == table.lookupCategoryId)">
+                    {{table.name}} 
+                  </mat-option>
+              </ng-container>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-5" *ngIf = "tablesDisplayed.length > 0">
+          <mat-form-field appearance="fill" [formGroup]="selectAllModelsForm">
+            <mat-label>Models</mat-label>
+            <mat-select formControlName="selectAllModelsControl" multiple>
+              <mat-option #allModelsSelected (click)="toggleAllModelsSelection()" value="0">Select All</mat-option>
+              <mat-option *ngFor="let model of models" value={{model.id}} (onSelectionChange)="ModelsSelected($event, model)">{{model.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> 
+        <div class="offset-sm-1 col-sm-1" *ngIf="selectedModels.length > 0">
+          <button type="button" class="btn btn-primary" (click) = "Save()">Save</button>
+        </div>
+      </div>
+
+      <br>
+
+      <div *ngFor="let table of tablesDisplayed">
+        <div class="row">
+          <div class="col-12">
+            <app-table-row [Models]="selectedModels" [Table]="table" [highlightedRows] = "highlightedRows" (emitter)="updateRelationshipList($event)" (tableLoaded)="tableLoaded($event)" (modelLoaded)="modelLoaded($event)"></app-table-row>
+          </div>
+        </div>
+
+        <br><br>
+      </div>
+    </div>
+  </form>
+</div>

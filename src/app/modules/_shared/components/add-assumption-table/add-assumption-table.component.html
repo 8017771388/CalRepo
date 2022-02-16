@@ -1,0 +1,202 @@
+<div class="modal-wrapper">
+
+    <div class="modal-body goal-body modal-padding">
+        <h1 class="head-font">{{title}}</h1>
+        <button (click)="closeModal()" class="cross-btn">
+            <!--<i class="fa fa-times" aria-hidden="true"></i>-->
+            <img src="assets/img/icon-delete.png">
+        </button>
+        <hr>
+        <div class="row">
+            <div class="col-11">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="label-font" for="category">Select a Category </label>
+                        <div class="dx-field">
+                            
+                            <div class="dx-field-value">
+                                <dx-select-box [dataSource]="categories"
+                                displayExpr="name"
+                                valueExpr="id"
+                                class="drp TA-down-arrow height-43"
+                                placeholder="Choose Category"
+                                [(ngModel)]="selectedCategoryID"
+                                (ngModelChange)="enableAdd()" [disabled]="isSuccessSave"
+                                ></dx-select-box>
+                            </div>
+                        </div>
+                        <!-- <label class="label-font" for="category">Select a Category </label>
+                        <select class="form-control input-sm custom-element"
+                                [(ngModel)]="selectedCategoryID" [ngClass]="selectedCategoryID === 0 ? 'drp-placeholder' : ''" (ngModelChange)="enableAdd()" [disabled]="isSuccessSave">
+                            <option value=0 hidden selected>Choose Category</option>
+                            <option *ngFor="let category of categories" class="optData"
+                                    [value]="category.id">
+                                {{ category.name }}
+                            </option>
+
+                        </select> -->
+                    </div>
+                    <div class="col-4">
+                        <label class="label-font" for="tableName">Table Name </label>
+                        <input class="form-control custom-control custom-element height-43 " name="name" type="text" placeholder="Type Table Name" maxlength="100" (keyup)="enableAdd()"
+                               [(ngModel)]="tableName" autocomplete="off" required [disabled]="isSuccessSave" />
+                    </div>
+                    <div class="col-4">
+                        <label class="label-font" for="type">Select a Type </label>
+                        <div class="dx-field">
+                            
+                            <div class="dx-field-value">
+                                <dx-select-box [dataSource]="types"
+                                displayExpr="name"
+                                valueExpr="id"
+                                class="drp TA-down-arrow height-43"
+                                placeholder="Select a Type"
+                                [(ngModel)]="tableType"
+                                (ngModelChange)="enableAdd()" [disabled]="isSuccessSave"
+                                ></dx-select-box>
+                            </div>
+                        </div>
+                        <!-- <select class="form-control input-sm custom-element"
+                                [(ngModel)]="tableType" (ngModelChange)="enableAdd()" [ngClass]="tableType === 0 ? 'drp-placeholder' : ''"
+                                [disabled]="isSuccessSave">
+                            <option value=0 hidden selected>Select a Type</option>
+                            <option *ngFor="let type of types" class="optData"
+                                    [value]="type.id">
+                                {{ type.name }}
+                            </option>
+
+                        </select> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <button type="button" class="btn btn-primary btn-md add-button" [disabled]="addDisabled" (click)="addTable()"> ADD </button>
+            </div>
+
+        </div>
+        <div class="row mtop-3p" *ngIf="message != ''">
+            <div class="col-12">
+                <alert *ngIf="messageType == 'danger'" [type]="messageType" [dismissible]="true" (onClosed)="onClosed($event)"><span><i class="fa fa-exclamation-triangle rgt-pd" aria-hidden="true"></i></span>{{ message }}</alert>
+
+                <alert class="error-alert" *ngIf="messageType == 'success'" [type]="messageType" [dismissible]="true" (onClosed)="onClosed($event)"><span><i class="fa fa-check rgt-pd" aria-hidden="true"></i></span><strong>Well done!</strong> You have successfully created a new table.</alert>
+
+            </div>
+        </div>
+        <div class="mtop-3p" *ngIf="isSuccessSave">
+           
+                <div class="table-container-padding" *ngIf="tableDS.tables.length > 0">
+                    <div class="pd-bottom40" *ngFor="let table of tableDS.tables">
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="table-title">{{table.name}}</span>
+                                <i class="fa fa-pencil icon-color icon-font" aria-hidden="true"></i>
+                                <button class="btn btn-sm btn-primary table-save-btn" *ngIf="table.saveEnabled"><i class="fa fa-save pd-right10" aria-hidden="true"></i>SAVE</button>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button type="button" class="btn btnColor" (click)="addNewRow(gridContainer,table)"> <i class="fa fa-plus-circle " aria-hidden="true"></i> Add a row</button>
+
+                            </div>
+                        </div>
+                      
+                        <div class="row ">
+                            <div class="col-12 add-table-grid">
+                                <dx-data-grid #gridContainer
+                                              id="gridContainer"
+                                              [dataSource]="table.rows"
+                                              [showColumnLines]="false"
+                                              [showRowLines]="true"
+                                              [showBorders]="true"
+                                              [columnAutoWidth]="false"
+                                              [rowAlternationEnabled]="false"
+                                              [cacheEnabled]="false"
+                                              [allowColumnReordering]="true"
+                                              [allowColumnResizing]="true"
+                                              (onEditorPreparing)="setValidation($event,gridContainer); logEvent('editPre',$event, table)"
+                                              (onEditorPrepared)="setTextBold($event);"
+                                              (onEditingStart)="enableSave('EditingStart',$event, table);logEvent('editStart',$event, table)"
+                                              (onInitNewRow)="initRow('InitNewRow',$event, table)"
+                                              (onRowInserting)="logEvent('RowInserting',$event)"
+                                              (onRowInserted)="rowSaved('RowInserted',$event,table)"
+                                              (onRowUpdating)="logEvent('RowUpdating',$event)"
+                                              (onRowUpdated)="rowSaved('RowUpdated',$event, table)"
+                                              (onRowRemoving)="logEvent('RowRemoving',$event)"
+                                              (onRowRemoved)="rowDeleted('RowRemoved',$event, table)"
+                                              (onSaving)="logEvent('Saving',$event)"
+                                              (onSaved)="logEvent('Saved',$event)"
+                                              (onEditCanceling)="logEvent('EditCanceling', '')"
+                                              (onEditCanceled)="logEvent('EditCanceled', '')">
+                                    <dxo-paging [enabled]="false"></dxo-paging>
+                                    <dxo-editing mode="row"
+                                                 [allowUpdating]="true"
+                                                 [allowDeleting]="true"
+                                                 [allowCanceling]="true"
+                                                 [useIcons]="true">
+                                    </dxo-editing>
+                                    <dxi-column dataField="desc"
+                                                caption="Description"
+                                                [allowSorting]="false"
+                                                [allowFiltering]="false"
+                                                alignment="left"
+                                                [editorOptions]="{ placeholder: 'Description'}"
+                                                [width]="200" cellTemplate="description">
+                                        <div *dxTemplate="let i of 'description'" class="dx-user-name-cell">
+                                            <span title="{{i.data.desc}}" class="desc-fontweight">{{ i.data.desc }}</span>
+                                        </div>
+                                        <dxi-validation-rule type="required" message="Please enter Description"></dxi-validation-rule>
+                                    </dxi-column>
+                                    <dxi-column *ngFor="let col of table.column; let i = index "
+                                                dataField="{{col.name}}"
+                                                caption="{{col.name}}"
+                                                format="{{table.dataType}}"
+                                                [allowSorting]="true"
+                                                [allowFiltering]="false"
+                                                alignment="right"
+                                                placeholder="{{col.name}}"
+                                                valueChangeEvent="keyup">
+                                        <dxi-validation-rule *ngIf="table.validationFormat == 'BPS'" type="pattern" [pattern]="bpsPattern" [reevaluate]="true"
+                                                             message="Please Enter One Decimal Place"></dxi-validation-rule>
+                                        <dxi-validation-rule *ngIf="table.validationFormat == 'BPS'" [reevaluate]="true" type="range" min="-100" max="1000" message="Please enter a value between -100 and 1000."></dxi-validation-rule>
+                                        <dxi-validation-rule *ngIf="table.validationFormat == 'Months'" type="pattern" [pattern]="monthPattern" [reevaluate]="true" message="Please Enter whole number only"></dxi-validation-rule>
+
+                                        <dxi-validation-rule *ngIf="table.validationFormat == 'Dollars'" type="pattern" [pattern]="dollerPattern" [reevaluate]="true"
+                                                             message="Please Enter whole number only"></dxi-validation-rule>
+                                        <dxi-validation-rule *ngIf="table.validationFormat == 'Dollars'" [reevaluate]="true" type="range" min="-100000000000" max="100000000000" message="Please enter a value between -$100,000,000,000 and $100,000,000,000."></dxi-validation-rule>
+                                        <dxi-validation-rule *ngIf="table.validationFormat == 'Percent'" [reevaluate]="true" type="pattern" [pattern]="bpsPattern"
+                                                             message="Please Enter One Decimal Place"></dxi-validation-rule>
+                                        <dxi-validation-rule *ngIf="table.validationFormat == 'Percent'" [reevaluate]="true" type="range" min="-100" max="100" message="Please enter a value between -100% and 100%."></dxi-validation-rule>
+                                        <dxi-validation-rule *ngIf="table.validationFormat == 'Months'" [reevaluate]="true" type="range" min="0" max="360" message="Please enter a value between 0 and 360."></dxi-validation-rule>
+
+                                    </dxi-column>
+
+                                    <dxi-column type="buttons" [width]="110">
+                                        <dxi-button name="edit">
+
+                                        </dxi-button>
+                                        <dxi-button name="delete"></dxi-button>
+                                        <dxi-button icon="check"
+                                                    hint="save"
+                                                    name="save">
+                                        </dxi-button>
+                                        <dxi-button icon="close"
+                                                    hint="cancel"
+                                                    name="cancel">
+                                        </dxi-button>
+
+
+
+                                    </dxi-column>
+
+
+
+                                </dx-data-grid>
+
+                            </div>
+
+                        </div>
+                      
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</div>

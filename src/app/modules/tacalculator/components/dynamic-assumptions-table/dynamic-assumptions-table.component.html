@@ -1,0 +1,66 @@
+
+<div class="table-container-padding container-padding-with-no-header" *ngIf="tableDS.tables?.length > 0">
+    <div class="pd-bottom40" *ngFor="let table of tableDS.tables">
+        <div class="row">
+            <div class="col-8">
+                <span class="table-title">{{table.name}}</span>
+               
+            </div>
+            
+        </div>
+
+        <div class="row ">
+            <div class="col-12">
+             
+                <dx-data-grid #gridContainer
+                            id="gridContainer"
+                            [dataSource]="table.rows"
+                            (onCellPrepared)="cellPrepared($event)"
+                            [showColumnLines]="false"
+                            [showRowLines]="true"
+                            [showBorders]="true"
+                            [columnAutoWidth]="false"
+                            [rowAlternationEnabled]="false"
+                            [cacheEnabled]="false"
+                            [allowColumnReordering]="true"
+                            [allowColumnResizing]="true"
+                            >
+                    <dxo-paging [enabled]="false"></dxo-paging>
+                
+                    <dxi-column
+                                dataField="desc"
+                                caption="Description"
+                                [allowSorting]="false"
+                                [allowFiltering]="false"
+                                                    
+                                 cellTemplate="desc">
+                        <div *dxTemplate="let i of 'desc'" class="dx-user-name-cell">
+                            <strong title="{{i.data.desc}}" class="desc-fontweight">{{ i.data.desc }}</strong>
+                        </div>
+                    
+                    </dxi-column>
+                    <dxi-column *ngFor="let col of table.column; let i = index "
+                                dataField="{{col.name}}"
+                                caption="{{col.name}}"
+                                format="{{table.dataType}}"
+                                [allowSorting]="true"
+                                [allowFiltering]="false"
+                                alignment="right"
+                                
+                            >
+                           
+                                         
+                           
+                    </dxi-column>
+
+                    
+
+
+
+                </dx-data-grid>
+
+            </div>
+
+        </div>
+    </div>
+</div>

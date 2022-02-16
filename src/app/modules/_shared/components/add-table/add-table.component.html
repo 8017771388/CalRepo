@@ -1,0 +1,153 @@
+<div class="modal-wrapper">
+    
+    <div class="modal-body goal-body modal-padding">
+        <h1 class="head-font">{{title}}</h1>
+        <button (click)="closeModal()" class="cross-btn">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+        <hr>
+        <div class="row">
+            <div class="col-11">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="label-font" for="category">Select a Category </label>
+                        <select class="form-control input-sm custom-element" 
+                            [(ngModel)]="selectedCategoryID" [ngClass]="selectedCategoryID === 0 ? 'drp-placeholder' : ''" (ngModelChange)="enableAdd()" [disabled]="isSuccessSave">
+                        <option value=0 hidden selected>Choose Category</option>
+                        <option *ngFor="let category of categories" class="optData"
+                                [value]="category.id">
+                            {{ category.name }}
+                        </option>
+        
+                    </select>
+                    </div>
+                    <div class="col-4">
+                        <label class="label-font" for="tableName">Table Name </label>
+                        <input class="form-control custom-control custom-element " name="name" type="text" placeholder="Type Table Name" maxlength="100" (keyup)="enableAdd()"
+                          [(ngModel)]="tableName" autocomplete="off" required [disabled]="isSuccessSave" />
+                    </div>
+                    <div class="col-4">
+                        <label class="label-font" for="type">Select a Type </label>
+                        <select class="form-control input-sm custom-element" 
+                            [(ngModel)]="tableType" (ngModelChange)="enableAdd()" [ngClass]="tableType === 0 ? 'drp-placeholder' : ''"
+                            [disabled]="isSuccessSave"  >
+                        <option value=0 hidden selected>Select a Type</option>
+                        <option *ngFor="let type of types" class="optData"
+                                [value]="type.id">
+                            {{ type.name }}
+                        </option>
+        
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <button type="button" class="btn btn-primary btn-md add-button" [disabled]="addDisabled" (click)="addTable()"> ADD </button>
+            </div>
+            
+        </div>
+        <div class="row mtop-3p" *ngIf="message != ''">
+            <div class="col-12">
+                <alert *ngIf="messageType == 'danger'" [type]="messageType" [dismissible]="true" (onClosed)="onClosed($event)"><span><i class="fa fa-exclamation-triangle rgt-pd" aria-hidden="true"></i></span>{{ message }}</alert>
+
+                <alert class="error-alert" *ngIf="messageType == 'success'" [type]="messageType" [dismissible]="true" (onClosed)="onClosed($event)"><span><i class="fa fa-check rgt-pd" aria-hidden="true"></i></span><strong>Well done!</strong> You have successfully created a new table.</alert>
+                
+            </div>
+        </div>
+
+        <div class="row mtop-3p" *ngIf="isSuccessSave">
+            <div class="col-12">
+                <span class="table-title">{{addedTable.name}}</span>
+                <i class="fa fa-pencil icon-color icon-font edit-icon" aria-hidden="true"></i>
+                <button class="btn btn-sm btn-primary table-save-btn" ><i class="fa fa-save pd-right10" aria-hidden="true"></i>SAVE</button>
+            </div>
+        </div>
+        <div class="row" *ngIf="table != undefined">
+            <div class="col-12 add-table">
+                <form #addTableForm="ngForm">  
+                <table>
+                    <thead>
+                        <tr class="text-uppercase">
+                            <th>Description</th>
+                            <th *ngFor="let column of table.table.columns; let i = index" title="{{column.name}}">{{column.name}}</th>
+                            
+                            <th></th>
+                        </tr>
+                    </thead>                 
+                    
+                    
+                    <tbody *ngIf=" !initialRow" class="background-grey">
+                        <tr [ngClass]="table.table.columns.hasError == 'true' ? 'row-height':''">  
+                            <!-- <form #addTableForm = "ngForm">                           -->
+                            <td class="dynamic-col">
+                                <input class="form-control custom-control" name="description" type="text" placeholder="Description" maxlength="100" [(ngModel)]="description"  autocomplete="off" required  />
+                            </td>
+                            <td class="dynamic-col" *ngFor="let column of table.table.columns; let i = index">
+                                <input [ngClass]="column.errorMessage!=''?'ng-invalid':''" class="form-control custom-control custom-input-text pull-right" name="col{{i}}"  placeholder="{{column.name}}" [pattern]="pattern" [(ngModel)]="column.value" (ngModelChange)="showErrorMessage($event,column,'addRow', table.table.columns)" autocomplete="off" (focus)="focusIn(column)" (focusout)="focusOut(column)" 
+                            />
+                            <div class="error-custom" *ngIf="(column.errorMessage != undefined && column.errorMessage != '') && (column.isFocus != undefined && column.isFocus=='true')">{{column.errorMessage}}</div>
+                            </td>
+                            
+                            <td class="dynamic-col">
+                                <span (click)="saveRow(table.table.columns, addTableForm, 'addRow', $event)" class="hand-cursor "><img src="assets/img/Icon-tick.png"></span>
+                                <span (click)="cancelRow(table.table.columns,'addRow','')" class="hand-cursor cross-icon"> <img src="assets/img/icon-delete.png"> </span>
+                            </td>
+                            <!-- </form> -->
+                        </tr>
+                        
+                    </tbody>
+                    <tbody *ngIf="newRowAdded">
+                        <tr *ngFor="let newRow of newRowTable; let index = index" class="background-grey" [ngClass]="newRow.hasError == 'true' ? 'row-height':''"> 
+                            <!-- <form #addNewRowTable = "ngForm">                            -->
+                            <td class="dynamic-col">
+                                <input class="form-control custom-control pull-right " name="newdescription{{index}}" type="text" placeholder="Description" maxlength="100" [(ngModel)]="newRow.desc" autocomplete="off" required  />
+                            </td>
+                            <td class="dynamic-col" *ngFor="let column of newRow.columns; let nr = index">
+                                <input [ngClass]="column.errorMessage!=''?'ng-invalid':''" class="form-control custom-control custom-input-text pull-right" name="col{{index}}{{nr}}"  placeholder="{{column.name}}" [pattern]="pattern" [(ngModel)]="column.value" (ngModelChange)="showErrorMessage($event,column,'addNewRow', newRow)"  autocomplete="off" (focus)="focusIn(column)" (focusout)="focusOut(column)"/>
+                            <div class="error-custom" *ngIf="(column.errorMessage != undefined && column.errorMessage != '') && (column.isFocus != undefined && column.isFocus=='true')">{{column.errorMessage}}</div>
+                            </td>
+                            
+                            <td class="dynamic-col">
+                                <span (click)="saveRow(newRow, addTableForm, 'addNewRow', $event)" class="hand-cursor"><img src="assets/img/Icon-tick.png"></span>
+                                <span (click)="cancelRow(newRow,'addNewRow', index)" class="hand-cursor"> <img src="assets/img/icon-delete.png"> </span>
+                            </td>
+                            <!-- </form> -->
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="table.rows.length > 0">                        
+                        <tr *ngFor="let row of table.newRows; let in = index" [ngClass]="[row.isEdit == 'true'?'background-grey':'row-bottom-border', row.hasError == 'true' ? 'row-height':'']" > 
+                           
+                            <td class="dynamic-col">
+                                <span >{{row.desc}}</span>
+                                
+                            </td>
+                            <td class="dynamic-col" *ngFor="let column of row.columns; let i = index">
+                                <span *ngIf="row.isEdit == 'false'"><span *ngIf="placeholder=='$'">{{placeholder}}</span>{{column.value}}<span *ngIf="placeholder == 'months'">{{column.value <= 0 ? 'month' : 'months'}}</span><span *ngIf="placeholder=='%' || placeholder == 'bps'">{{placeholder}}</span></span>
+                                <input *ngIf="row.isEdit == 'true'" class="form-control custom-control custom-input-text " [ngClass]="column.errorMessage!=''?'ng-invalid':''" name="col{{i}}{{row.id}}"  placeholder="{{table.table.columns[i].name}}" [pattern]="pattern" [(ngModel)]="column.editValue" (ngModelChange)="showErrorMessage($event,column,'editRow',row)"  autocomplete="off" (focus)="focusIn(column)" (focusout)="focusOut(column)" 
+                            />
+                            <div class="error-custom" *ngIf="(column.errorMessage != undefined && column.errorMessage != '') && (column.isFocus != undefined && column.isFocus=='true')">{{column.errorMessage}}</div>
+                            </td>
+                            
+                            <td class="dynamic-col">
+                                <span *ngIf="row.isEdit == 'true'" (click)="saveRow(row, addTableForm, 'editRow', $event)" class="hand-cursor"><img src="assets/img/Icon-tick.png"></span>
+                                <span *ngIf="row.isEdit == 'true'" (click)="cancelRow(row,'editRow',in)" class="hand-cursor"> <img src="assets/img/icon-delete.png"></span>
+
+                                <span *ngIf="row.isEdit == 'false'" class="hand-cursor"><i class="fa fa-pencil edit-icon" aria-hidden="true" (click)="row.isEdit = 'true';"></i></span>
+                                <span *ngIf="row.isEdit == 'false'" class="hand-cursor"><i class="fa fa-trash trash-icon" (click)="deleteRow(row, $event)" aria-hidden="true"></i></span>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+                </form>
+            </div>
+
+            <div class="col-12 text-right">
+                <button type="button" class="btn btnColor" (click)="addNewRow()"> <i class="fa fa-plus-circle " aria-hidden="true"></i> Add a row</button>
+              
+            </div>
+
+        </div>
+    </div>
+    
+</div>

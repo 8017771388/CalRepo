@@ -1,0 +1,184 @@
+.table-container{
+    padding:15px;
+}
+:host .dx-fieldset {
+    height: 500px;
+}
+.btnColor {
+    color: #0076C8;
+    padding-left: 25px;
+}
+.pd-bottom22 {
+    padding-bottom: 22px;
+    color: #4F5861;
+}
+.drp-label {
+    font-size: 14px;
+    color: #606F7F;
+    font-weight:600;
+    font-weight:600;
+}
+.drp {   
+    font-size: 14px;
+    font-family: "roboto", sans-serif;
+    height: 43px;   
+}
+
+.drp-placeholder {
+    color: #999;
+    font-style: italic;
+    font-size: 0.875rem;
+    /*font-family: roboto;*/
+    padding-left: 8px;
+}
+.optData {
+    color: #495057;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: "Helvetica Neue","Segoe UI",helvetica,verdana,sans-serif;
+    line-height: 1.35715;
+    font-style:normal;  
+}
+.ddlSmall{
+    font-size:14px;
+}
+.tagBoxDropDown:before {
+    left: 89%;
+}
+:host ::ng-deep .dx-placeholder {
+    font-size: 0.875rem;
+    /*font-family: roboto;*/
+    font-style: italic;
+}
+.pd-bottom40{
+    padding-bottom:40px;
+}
+.table-container-padding {
+    padding: 0px 15px 15px 16px;
+    width:100%;
+}
+.table-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4F5861;
+    margin-right: 10px;
+}
+
+.icon-color{
+    color: #0076C8
+}
+
+.icon-font{
+    font-size: 20px;
+}
+.mtop-15{
+    margin-top: 15px;
+}
+/*select {
+    -webkit-appearance: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 20px;
+}*/
+//Down Arrow
+select::-ms-expand {
+    display: none;
+}
+
+.custom-arrow{
+    font-size: 14px;
+    padding: 7px 10px;
+    padding-right: 20px;
+    //margin-left: 30px;
+    //border-radius: 1000000px;
+    border: 1px solid #ddd;
+    outline: none;
+    //-webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    //background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' aria-hidden='true' focusable='false' width='15' height='15' style='-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);' preserveAspectRatio='xMidYMid meet' viewBox='0 0 512 512'%3E%3Cpath d='M98 190.06l139.78 163.12a24 24 0 0 0 36.44 0L414 190.06c13.34-15.57 2.28-39.62-18.22-39.62h-279.6c-20.5 0-31.56 24.05-18.18 39.62z' fill='black'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-position-y: 14px;
+    margin-right: 3rem;
+    position: relative;
+    height: 43px;
+    color:#606F7F;
+    &:focus{
+        box-shadow: #468CF9;
+    }
+}
+/*select {
+    background-image: linear-gradient(45deg, transparent 50%, #333 50%), linear-gradient(135deg, #333 50%, transparent 50%);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px, 5px 5px, 1px 1.5em;
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-shadow: 0px 4px 8px #0C0C0C26;
+    height:43px;
+    font-weight:600;
+}*/
+
+
+:host ::ng-deep .dx-dropdowneditor-icon {
+    font: 23px/23px DXIcons
+}
+.customBtn {
+    border-radius: 0px;
+    border: none;
+    font-size: 14px;
+    background-color: #0076C8;
+    //opacity: 1;
+}
+.page-title{
+    font-size:1.1rem;
+    font-weight:600;
+}
+.add-row-btn {
+    color: #fff;
+    background-color: #0076C8 !important;
+    border-color: #0076C8 !important;
+}
+/*td[role=columnheader] {
+    text-align: right !important
+}
+.dx-datagrid-rowsview .order {
+    text-align: right !important;
+}*/
+
+.table-save-btn {
+    margin-left: 20px;
+    background-color: #0076C8 !important;
+    border-color: #0076C8 !important;
+    height: 21px;
+    line-height: 13px;
+    font-size: 12px;
+}
+.pd-right10{
+    padding-right:10px;
+}
+.desc-fontweight{
+    font-weight:600;
+}
+/*::ng-deep .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-list-item-selected {
+    background-color: red;
+    color: #333;
+}*/
+::ng-deep .dx-list-item-selected {
+    background-color: #F0F6FF!important;
+    color: #000;
+}
+
+.dx-texteditor.dx-state-active.dx-editor-filled, .dx-texteditor.dx-state-active.dx-editor-outlined, .dx-texteditor.dx-state-active.dx-editor-underlined, .dx-texteditor.dx-state-focused.dx-editor-filled, .dx-texteditor.dx-state-focused.dx-editor-outlined, .dx-texteditor.dx-state-focused.dx-editor-underlined{
+    border-color: #468cf9 !important;
+   
+}
+
+::ng-deep .dx-scrollview-content {
+    font-weight: 500;
+}
+::ng-deep .dx-tag-content {
+    background-color: white !important;
+    padding-top: 7px;
+}
+

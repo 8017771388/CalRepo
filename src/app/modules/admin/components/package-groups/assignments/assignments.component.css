@@ -1,0 +1,19 @@
+
+.bordered {
+  border-radius: 3px;
+  padding: 20px;
+  border: 1px solid;
+  border-color: #e5e5e5;
+  /* display: flex;
+  justify-content: center; */
+  animation-name: height;
+  animation-duration: .5s;
+  }
+
+   @keyframes height {
+    0%   { opacity: 0}
+    25%  { opacity: .25}
+    50%  {opacity: .5}
+    75%  {opacity: .75}
+    100% {opacity: 1}
+  }

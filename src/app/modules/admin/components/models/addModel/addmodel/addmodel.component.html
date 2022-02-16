@@ -1,0 +1,48 @@
+<div class="bordered">
+  <form #modelForm="ngForm">
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Name</label>
+    <div class="col-sm-5">
+      <input id="name" name="name" type="text" [(ngModel)]="addmodelForm.name"
+      placeholder="Short Name" class="form-control" required>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Description</label>
+    <div class="col-sm-5">
+      <input id="description" name="description" type="text" [(ngModel)]="addmodelForm.description"
+      placeholder="Short Description" class="form-control" required>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Start Date</label>
+    <div class="col-sm-5">
+      <input id="startDate" name="startDate" type="date" [(ngModel)]="addmodelForm.startDate"
+      placeholder="(Optional)" class="form-control">
+
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">End Date</label>
+    <div class="col-sm-5">
+      <input id="endDate" name="endDate" type="date"  [(ngModel)]="addmodelForm.endDate"
+      placeholder="(Optional)" class="form-control">
+
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Archive</label>
+    <div class="col-sm-5">
+      <input type="checkbox" name="isArchive"  [(ngModel)]="addmodelForm.isArchive" id="archive" value="">
+    </div>
+    <div class="col-sm-1">
+      <button type="button" class="btn btn-primary" (click) = "save()">Save</button>
+    </div>
+    <div class="col-sm-1">
+      <button type="button" class="btn btn-primary" (click)= "close()">Close</button>
+    </div>
+  </div>
+</form>
+</div>
+

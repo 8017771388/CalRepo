@@ -1,0 +1,50 @@
+<div class="row">
+        <div class="col-12">
+
+            <dx-data-grid #gridContainer
+                id="gridContainer"
+                class="gridContainerPL"
+                [dataSource]="plData"
+                [showColumnLines]="false"
+                [showRowLines]="true"
+                [showBorders]="true"
+                [rowAlternationEnabled]="false"
+                [columnAutoWidth]="true" 
+                (onCellPrepared)="onCellPrepared($event)"
+                >
+
+                <dxo-paging [enabled]="false"></dxo-paging>
+
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                            dataField="rowName"
+                            caption=""
+                            alignment="left"
+                            headerCellTemplate="titleHeaderTemplate"
+                            cellTemplate="rowName"
+                            > 
+                    <div *dxTemplate="let rn of 'rowName'">
+                        <span title="{{rn.data.rowName}}" class="column-one" [ngClass]="{'grid-color':rn.data.rowLevel<3}">{{ rn.data.rowName }}</span>
+                    </div>               
+                </dxi-column>
+                <div *dxTemplate="let info of 'titleHeaderTemplate'">
+                    <span *ngIf="this.plHeader.length > 0" >{{ this.plHeader[0].rowName }}</span>
+                </div>
+                
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                             dataField="roaValue" 
+                             caption="ROA"
+                             alignment="right">
+                </dxi-column>
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false" 
+                            dataField="year1Value" 
+                            caption="Year1"
+                            alignment="right">
+                </dxi-column>
+                
+            </dx-data-grid>
+        </div>
+
+    </div>

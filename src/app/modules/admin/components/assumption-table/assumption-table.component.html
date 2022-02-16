@@ -1,0 +1,205 @@
+<div class=" table-container">
+    <div class="row">
+        <div class="col-12 pd-bottom22">
+            <h1 class="page-title">Assumption Tables</h1>
+        </div>
+    </div>
+    <div class="row drp-label">
+        <div class="col-4">Choose Category</div>
+        <div class="col-8">Choose Tables</div>
+    </div>
+    <div class="row pd-bottom40">
+        <div class="col-4">
+            <dx-select-box [dataSource]="categories"
+                           displayExpr="name"
+                           valueExpr="id"
+                           placeholder="Choose Category"
+                            [(ngModel)]="selectedCategoryID"
+                           (ngModelChange)="getAllTablesByCategoryID($event)"
+                           class="drp TA-down-arrow"
+                           
+                           ></dx-select-box>
+
+            <!--<label>Select a Category</label>-->
+            <!--<select class="form-control input-sm custom-arrow"
+                    [(ngModel)]="selectedCategoryID"
+                    (ngModelChange)="getAllTablesByCategoryID($event)" [ngClass]="selectedCategoryID === 0 ? 'drp-placeholder' : ''">
+                <option value=0 hidden selected>Choose Category</option>
+                <option *ngFor="let category of categories" class="optData"
+                        [value]="category.id">
+                    {{ category.name }}
+                </option>
+
+            </select>-->
+        </div>
+
+        <div class="col-4">
+            <!--<label>Select a Table</label>-->
+            <dx-tag-box [items]="assumptionTables" [(ngModel)]="selectedTable" id="tableId"
+                        displayExpr="name" [disabled]="selectedCategoryID == 0"
+                        [showSelectionControls]="true" (ngModelChange)="checkEnable()"
+                        selectAllMode="allPages"
+                        [maxDisplayedTags]="1"
+                        placeholder="Choose Tables" (onMultiTagPreparing)="onMultiTagPreparing($event)"
+                        valueExpr="id" class="drp TA-down-arrow">
+
+                    </dx-tag-box>
+            <!--<div class="dx-dropdowneditor-icon tagBoxDropDown"></div>-->
+        </div>
+        <div class="col-1 padding-t-3">
+            <button type="button" class="btn btn-primary customBtn" (click)="getTables(this.selectedTable)" [disabled]="!isEnabled"> SUBMIT</button>
+
+        </div>
+        <!--<div class="col-3">
+            <button type="button" class="btn btnColor" (click)="addTable()"><span class="fa fa-plus"></span> Add a new table</button>
+        </div>-->
+    </div>
+    <!--<div class="row">
+        <div class="dx-fieldset">
+            <div class="dx-field">
+                <div class="dx-field-label">
+                    Multi-tag for several items
+                </div>
+                <div class="dx-field-value">
+                    <dx-tag-box [items]="tables"
+                                [value]="[1, 2, 3, 4]"
+                                displayExpr="name"
+                                valueExpr="id"
+                                [showSelectionControls]="true"
+                                selectAllMode="allPages"
+                                [maxDisplayedTags]="3"></dx-tag-box>
+                </div>
+            </div>
+            </div>
+        </div>-->
+    <div class="table-container-padding" *ngIf="tableDS.tables.length > 0">
+        <div class="pd-bottom40" *ngFor="let table of tableDS.tables">
+            <div class="row">
+                <div class="col-6">
+                    <span class="table-title">{{table.name}}</span>
+                    <!--<i class="fa fa-pencil icon-color icon-font" aria-hidden="true"></i>-->
+                    <button class="btn btn-sm btn-primary table-save-btn" *ngIf="table.saveEnabled"><i class="fa fa-save pd-right10" aria-hidden="true"></i>SAVE</button>
+                </div>
+                <div class="col-6 text-right">
+                    <!--<button type="button" class="btn btnColor" (click)="addNewRow(gridContainer,table)"> <i class="fa fa-plus-circle " aria-hidden="true"></i> Add a row</button>-->
+                  
+                </div>
+            </div>
+            <!--<div class="text-right">
+                
+            </div>-->
+            <div class="row ">
+                <div class="col-12 assumption-grid">
+                    <dx-data-grid #gridContainer
+                                  id="gridContainer"
+                                  [dataSource]="table.rows"
+                                  [showColumnLines]="false"
+                                  [showRowLines]="true"
+                                  [showBorders]="true"
+                                  [columnAutoWidth]="false"
+                                  [rowAlternationEnabled]="false"
+                                  [cacheEnabled]="false"
+                                  [allowColumnReordering]="true"
+                                  [allowColumnResizing]="true"
+                                  (onCellPrepared)="cellPrepared($event)"
+                                  (onEditorPreparing)="setValidation($event,gridContainer); logEvent('editPre',$event, table)"
+                                  (onEditorPrepared)="setTextBold($event);"
+                                  (onEditingStart)="enableSave('EditingStart',$event, table);logEvent('editStart',$event, table)"
+                                  (onInitNewRow)="initRow('InitNewRow',$event, table)"
+                                  (onRowInserting)="logEvent('RowInserting',$event)"
+                                  (onRowInserted)="rowSaved('RowInserted',$event,table)"
+                                  (onRowUpdating)="logEvent('RowUpdating',$event)"
+                                  (onRowUpdated)="rowSaved('RowUpdated',$event, table)"
+                                  (onRowRemoving)="logEvent('RowRemoving',$event)"
+                                  (onRowRemoved)="rowDeleted('RowRemoved',$event, table)"
+                                  (onSaving)="logEvent('Saving',$event)"
+                                  (onSaved)="logEvent('Saved',$event)"
+                                  (onEditCanceling)="logEvent('EditCanceling', '')"
+                                  (onEditCanceled)="logEvent('EditCanceled', '')">
+                        <dxo-paging [enabled]="false"></dxo-paging>
+                        <dxo-editing mode="row"
+                                     [allowUpdating]="true"
+                                     [allowDeleting]="true"
+                                     [allowCanceling]="true"
+                                     [useIcons]="true">
+                        </dxo-editing>
+                        <dxi-column
+                                    dataField="desc"
+                                    caption="Description"
+                                    [allowSorting]="false"
+                                    [allowFiltering]="false"
+                                    [alignment]="right"
+                                    [editorOptions]="{ placeholder: 'Description'}"
+                                    [width]="200" cellTemplate="desc">
+                            <div *dxTemplate="let i of 'desc'" class="dx-user-name-cell">
+                                <span title="{{i.data.desc}}" class="desc-fontweight">{{ i.data.desc }}</span>
+                            </div>
+                            <dxi-validation-rule type="required" message="Please enter Description"></dxi-validation-rule>
+                        </dxi-column>
+                        <dxi-column *ngFor="let col of table.column; let i = index "
+                                    dataField="{{col.name}}"
+                                    caption="{{col.name}}"
+                                    format="{{table.dataType}}"
+                                    [allowSorting]="true"
+                                    [allowFiltering]="false"
+                                    alignment="right"
+                                    placeholder="{{col.name}}"
+                                    valueChangeEvent="keyup"
+                                    
+                                    >
+                            <dxi-validation-rule *ngIf="table.validationFormat == 'BPS'" type="pattern" [pattern]="bpsPattern" [reevaluate]="true"
+                                                 message="Please Enter One Decimal Place"></dxi-validation-rule>
+                            <dxi-validation-rule *ngIf="table.validationFormat == 'BPS'" [reevaluate]="true" type="range" min="-100" max="1000" message="Please enter a value between -100 and 1000."></dxi-validation-rule>
+                            <dxi-validation-rule *ngIf="table.validationFormat == 'Months'" type="pattern" [pattern]="monthPattern" [reevaluate]="true" message="Please Enter whole number only"></dxi-validation-rule>
+
+                            <dxi-validation-rule *ngIf="table.validationFormat == 'Dollars'" type="pattern" [pattern]="dollerPattern" [reevaluate]="true"
+                                                 message="Please Enter whole number only"></dxi-validation-rule>
+                            <dxi-validation-rule *ngIf="table.validationFormat == 'Dollars'" [reevaluate]="true" type="range" min="-100000000000" max="100000000000" message="Please enter a value between -$100,000,000,000 and $100,000,000,000."></dxi-validation-rule>
+                            <dxi-validation-rule *ngIf="table.validationFormat == 'Percent'" [reevaluate]="true" type="pattern" [pattern]="bpsPattern"
+                                                 message="Please Enter One Decimal Place"></dxi-validation-rule>
+                            <dxi-validation-rule *ngIf="table.validationFormat == 'Percent'" [reevaluate]="true" type="range" min="-100" max="100" message="Please enter a value between -100% and 100%."></dxi-validation-rule>
+                            <dxi-validation-rule *ngIf="table.validationFormat == 'Months'" [reevaluate]="true" type="range" min="0" max="360" message="Please enter a value between 0 and 360."></dxi-validation-rule>
+                            <!-- <div *dxTemplate="let cg of 'colvalue'" >
+                                <span  [ngClass]="cg.data[col.name].toString().split('')[0] == '-' ? 'red-font':''" >
+                                    {{ cg.data[col.name]}}
+                                   
+                                </span>
+                               
+                            </div>                -->
+                           
+                        </dxi-column>
+
+                        <dxi-column type="buttons" [width]="110">
+                            <dxi-button name="edit">
+
+                            </dxi-button>
+                            <!--<dxi-button name="delete"></dxi-button>-->
+                            <dxi-button icon="check"
+                                        hint="save"
+                                        name="save">
+                            </dxi-button>
+                            <dxi-button icon="close"
+                                        hint="cancel"
+                                        name="cancel">
+                            </dxi-button>
+
+
+
+                        </dxi-column>
+
+
+
+                    </dx-data-grid>
+
+                </div>
+
+            </div>
+            <!--<div class="row mtop-15" *ngIf="table.column.length > 0">
+        <div class="col-12 text-right">
+            <button type="button" class="btn btn-primary btn-sm text-uppercase add-row-btn" (click)="addNewRow(table)"> <i class="fa fa-plus-circle " aria-hidden="true"></i> Add a Row</button>
+        </div>
+    </div>-->
+        </div>
+    </div>
+
+</div>

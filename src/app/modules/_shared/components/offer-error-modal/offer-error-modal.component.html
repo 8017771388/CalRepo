@@ -1,0 +1,17 @@
+<div class="modal-wrapper offer-error">
+    <div class="modal-header">
+        <h1>{{title}}</h1>
+        <button (click)="bsModalRef.hide()" class="cross-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+    <div class="modal-body goal-body">
+        <div class="col-12 error-custom-msg margin-top5 confirm-txt">
+            {{combinationTxt}}
+        </div>
+        <div class="col-12 error-custom-msg margin-top5 confirm-txt">
+            {{duplicateTxt}}
+        </div>
+    </div>
+   
+</div>

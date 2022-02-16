@@ -1,0 +1,65 @@
+<!-- <app-tacalculator></app-tacalculator> -->
+
+<div class="tacaculator-form form-group">
+    
+        
+        <div >
+            <!-- <nav class="navbar navbar-expand-sm">
+                <ul class="navbar-nav "[ngClass]="{'header-navbar': currentTab=='Profit and Loss'}">
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="currentTab='Offers'" [ngClass]="{'active': currentTab=='Offers'}">
+                            Offers                           
+                        </a>
+                        
+                    </li>
+                    <li class="nav-item dropdown" >
+                        <a class="nav-link " *ngIf="userType=='Admin'" (click)="currentTab='Profit and Loss'" [ngClass]="{'active': currentTab=='Profit and Loss'}"  [class.disabled]="isPnLEnabled">
+                            Profit and Loss                          </a>
+                           
+
+                        <div class="dropdown-menu" [ngClass]="{'show': currentTab=='Profit and Loss'}">
+                            <div *ngFor="let model of models">
+                                <a class="dropdown-item" (click)="currentSubTab= model.name;plTabId(model.id)" [ngClass]="{'subActive': currentSubTab==model.name}">{{model.name}} P&L</a>
+                            </div>
+                           
+                          </div>
+                        
+                    </li>
+                   
+        
+                </ul>
+               
+            </nav> -->
+
+            <!-- <app-profit-loss *ngIf="currentTab=='Profit and Loss's" [offerData]="offerRes" [modelId]="modelId"></app-profit-loss>
+            <app-offer-page *ngIf="currentTab=='Offers'"></app-offer-page> -->
+
+            <nav class="navbar navbar-expand-sm">
+                <ul class="navbar-nav nav nav-tabs" id="nav-tab" role="tablist" [ngClass]="{'header-navbar': currentTab=='Profit and Loss'}">
+                    <li class="nav-item">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#offers" role="tab" aria-controls="nav-home" aria-selected="true" (click)="currentTab='Offers'" >Offers</a>
+                    </li>
+                    <li class="nav-item dropdown" >
+                        <a class="nav-item nav-link" *ngIf="userType=='Admin'" id="nav-profile-tab" data-toggle="tab" href="#pl" role="tab" aria-controls="nav-profile" aria-selected="false" [class.disabled]="isPnLEnabled" (click)="currentTab='Profit and Loss'">Profit & Loss</a>
+
+                        <div class="dropdown-menu" [ngClass]="{'show': currentTab=='Profit and Loss'}">
+                            <div class="dropdown-item-container" *ngFor="let model of modelTermC">
+                                <a class="dropdown-item" (click)="currentSubTab= model.index;plTabId(model)" [ngClass]="{'subActive': currentSubTab==model.index}">{{model.name}}</a>
+                            </div>
+                           
+                          </div>
+                     </li>
+                </ul>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="offers" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <app-offer-page ></app-offer-page>
+                </div>
+                <div class="tab-pane fade" id="pl" role="tabpanel" aria-labelledby="nav-profile-tab">
+                   
+                    <app-profit-loss *ngIf="currentTab=='Profit and Loss'" [offerData]="offerRes" [modelId]="modelId"></app-profit-loss>
+                </div>
+                         
+        </div>
+       
+</div>

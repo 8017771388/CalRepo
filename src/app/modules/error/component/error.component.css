@@ -1,0 +1,37 @@
+.error-container {
+    text-align: center;
+}
+
+h2 {
+    margin-top: 100px;
+}
+
+.errorMsgStyle {
+    padding: 5% 7% 1% 7%;
+    font-size: 20px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.errorTable {
+    text-align: left;
+    width: 55%;
+    margin: auto;
+    font-size: 17px;
+}
+
+td {
+    border: 1px solid #dddddd;
+    padding: 5px;
+}
+
+.hlink {
+    color: #007bff;
+}
+
+.hlink a:hover {
+        color: #007bff;
+}
+.role-list {
+    display: inline-table;
+}

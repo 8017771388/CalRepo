@@ -1,0 +1,603 @@
+<!-- <app-tacalculator></app-tacalculator> -->
+<br>
+<div class="tacaculator-form ">
+    <form #newTAForm="ngForm" novalidate>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="top18">Advisor Profile</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label>CRD:</label>
+                    <input #crd type="number" id="crd" [(ngModel)]="taForm.Advisor_CRD" placeholder="Ex: 999999999"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                           name="Advisor_Crd" class="full-width custom-border" min="0" maxlength="9"  required>
+                    <div *ngIf="crd.classList.contains('ng-invalid' ) && crd.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                        Please enter CRD.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label>OSJ:</label>
+                    <input #osj type="text" autocomplete="off" [(ngModel)]="taForm.Advisor_OSJ" placeholder="OSJ ID"
+                           name="Advisor_Osj" class="full-width custom-border" maxlength="4">
+                    <div *ngIf="osj.classList.contains('ng-invalid' ) && osj.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                        Please enter OSJ.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label>Advisor/Team Name:</label>
+                    <input #teamName type="text" autocomplete="off" [(ngModel)]="taForm.Advisor_Team_Name" placeholder="Type Advisor Name"
+                           name="Advisor_Team_Name" class="full-width custom-border" required>
+                    <div *ngIf="teamName.classList.contains('ng-invalid' ) && teamName.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                        Please enter Advisor/Team Name.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label># of Advisors:</label>
+                    <input #advisorCount type="number" min="1" [(ngModel)]="taForm.No_of_Advisors" placeholder="XXX"
+                           class="full-width custom-border" #advisorCount="ngModel" name="No_of_Advisors"
+                           [ngClass]="{'error-txt-border':(advisorCount.classList.contains('ng-invalid' ) || taForm.No_of_Advisors<1|| taForm.No_of_Advisors>100) && advisorCount.classList.contains('ng-touched')}"
+                           required minRange="0" maxRange="100" (focus)="notFocuse=false" (focusout)="notFocuse=true"
+                           onkeydown="if(event.key==='.'){event.preventDefault();}" oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');">
+                    <div *ngIf="notFocuse && (advisorCount.classList.contains('ng-invalid' ) || taForm.No_of_Advisors<1|| taForm.No_of_Advisors>100) && advisorCount.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                        Please enter a value between 1 and 100.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label>Prior Firm Type:</label>
+                    <dx-select-box #firmType [dataSource]="priorFirmTerm"
+                                    
+                            [(ngModel)]="taForm.Prior_Firm_Type"
+                           (ngModelChange)="CalculateEAUMTotal()"
+                           class="drp TA-down-arrow createOfferDropDown full-width form-control custom-border"
+                           placeholder="Prior Firm Type"
+                           name="Prior_Firm_Type"
+                           required
+                           valueExpr="name"
+                           displayExpr="name"
+                           ></dx-select-box>
+
+                    <!-- <select #firmType [(ngModel)]="taForm.Prior_Firm_Type" (ngModelChange)="CalculateEAUMTotal()"
+                            placeholder="Prior Firm Type" class="full-width form-control custom-border" name="Prior_Firm_Type"
+                            [ngClass]="taForm.Prior_Firm_Type == '' ? 'drp-placeholder' : ''" required>
+
+                        <option value="" hidden selected>Prior Firm Type</option>
+                        <option>Incoming Financial Institutions (Tape)</option>
+                        <option>Incoming Financial Institutions (Non-Tape)</option>
+                        <option>Independents</option>
+                        <option>Employee Advisor Experiment</option>
+                        <option>Wirehouses</option>
+                        <option>Regionals</option>
+                        <option>Insurance B/Ds</option>
+                        <option>Advisors coming from a bank</option>
+                        <option>Other</option>
+                    </select> -->
+                   
+                    <div *ngIf="firmType.element.nativeElement.classList.contains('ng-invalid' ) && firmType.element.nativeElement.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                        Please select a Prior Firm Type.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label>Prior Firm Name:</label>
+                    <input #firmName type="text" autocomplete="off" [(ngModel)]="taForm.Prior_Firm_Name" placeholder="Prior Firm Name" name="Prior_Firm_Name" class="full-width custom-border" required>
+                    <div *ngIf="firmName.classList.contains('ng-invalid' ) && firmName.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                        Please enter Prior Firm Name.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h1>Financial Details (GDC)</h1>
+                </div>
+            </div>
+            <div class="form-group row m-b-0">
+                <div class="col-6">
+                    <label>T12 Advisory GDC:</label>
+                    <div class="input-group input-group-sm form-group m-b-0">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #advisoryGdc class="commaSeparatedNoDecimal custom-border custom-width" [(ngModel)]="taForm.T12_Advisory_GDC"
+                               name="T12_Advisory_GDC" (ngModelChange)="valueChanged($event, 'T12_Advisory_GDC'); CalculateT12GDCTotal(); "
+                               autocomplete="off" compareValidator compareTo="Brokarage" #advisoryGdc2="ngModel" rangeValidator minRange="0" maxRange="100000000"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$" (keydown)="
+                        checkValueAum($event)" placeholder="XXXX" maxlength="11" (focus)="notFocuseAdvGdc=false" (focusout)="notFocuseAdvGdc=true">
+
+                    </div>
+
+                    <div *ngIf="notFocuseAdvGdc && advisoryGdc.classList.contains('ng-invalid' ) && advisoryGdc.classList.contains('ng-touched') && !advisoryGdc2.hasError('advisory') && !advisoryGdc2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseAdvGdc && advisoryGdc2.hasError('advisory') && advisoryGdc.classList.contains('ng-invalid' ) && advisoryGdc.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                        Please enter a value in T12 Advisory GDC or T12 Brokerage GDC.
+                    </div>
+                    <div *ngIf="notFocuseAdvGdc && advisoryGdc2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000.
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label>T12 Brokerage GDC:</label>
+                    <div class="input-group input-group-sm ">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #brokerageGdc type="text" class="commaSeparatedNoDecimal custom-border custom-width"
+                               [(ngModel)]="taForm.T12_Brokerage_GDC" name="T12_Brokerage_GDC" compareValidator compareTo="Advisory"
+                               (ngModelChange)="valueChanged($event, 'T12_Brokerage_GDC'); CalculateT12GDCTotal(); " autocomplete="off" (keydown)="
+                        checkValueAum($event)" #brokerageGdc2="ngModel" rangeValidator minRange="0" maxRange="100000000"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$" placeholder="XXXX" maxlength="11"
+                               (focus)="notFocuseBrkGdc=false" (focusout)="notFocuseBrkGdc=true">
+
+                    </div>
+                    <div *ngIf="notFocuseBrkGdc && brokerageGdc.classList.contains('ng-invalid' ) && brokerageGdc.classList.contains('ng-touched') && !brokerageGdc2.hasError('brokarage') && !brokerageGdc2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseBrkGdc && brokerageGdc2.hasError('brokarage') && brokerageGdc.classList.contains('ng-invalid' ) && brokerageGdc.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                        Please enter a value in T12 Advisory GDC or T12 Brokerage GDC.
+                    </div>
+                    <div *ngIf="notFocuseBrkGdc && brokerageGdc2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <h1>Financial Details (AUM)</h1>
+                </div>
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9 ">
+                    <label>Advisory AUM:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input class="commaSeparatedNoDecimal custom-input custom-width-lg" [(ngModel)]="taForm.Advisory_dollar"
+                               name="Advisory_dollar" (ngModelChange)="valueChanged($event, 'Advisory_dollar'); CalculateVAUMTotal();" autocomplete="off" (keydown)="
+                        checkValueAum($event)" #Advisory_dollar2="ngModel" rangeValidator minRange="0" maxRange="100000000000"
+                               [ngClass]="{'error-txt-border': Advisory_dollar2.hasError('rangeValidator')}" maxlength="15"
+                               id="Advisory_dollar" #advisoryAum pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$" placeholder="Ex. 200,000,000"
+                               (focus)="notFocuseAdvAUM=false" (focusout)="notFocuseAdvAUM=true">
+                    </div>
+                    <div *ngIf="notFocuseAdvAUM && advisoryAum.classList.contains('ng-invalid' ) && advisoryAum.classList.contains('ng-touched') && !(Advisory_dollar2.hasError('rangeValidator'))" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+
+                    <div *ngIf="notFocuseAdvAUM && Advisory_dollar2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="Advisory AUM ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control singleDecimal custom-input"
+                               [ngModel]="taForm.Advisory_percentage | number:'1.1-1'" name="Advisory_percentage" autocomplete="off"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$" disabled
+                               (ngModelChange)="taForm.Advisory_percentage=$event; valueChanged($event, 'Advisory_dollar')" placeholder="0.0" readonly>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9">
+                    <label>Brokerage AUM:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" class="singleDecimal custom-input custom-border custom-width-lg" pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$"
+                               (keydown)="checkValueAum($event)" placeholder="Ex. 200,000,000" rangeValidator minRange="0" maxRange="100000000000"
+                               [(ngModel)]="taForm.Brokerage_dollar" name="Brokerage_dollar" #Brokerage_dollar2="ngModel" #brokarageAum
+                               [ngClass]="{'error-txt-border': Brokerage_dollar2.hasError('rangeValidator')}" maxlength="15"
+                               (ngModelChange)="valueChanged($event, 'MFs_Custodied_dollar'); CalculateT12GDCTotal()" disabled title="Sum of fields below">
+                    </div>
+                    <div *ngIf="Brokerage_dollar2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="Brokerage AUM ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control singleDecimal custom-input" [ngModel]="taForm.Brokerage_percentage | number:'1.1-1'" (ngModelChange)="taForm.Brokerage_percentage=$event" name="Brokerage_percentage" placeholder="0.0" disabled>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9">
+                    <label>MFs (Custodied):</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #mfsc (keydown)="
+                        checkValueAum($event)" class="commaSeparatedNoDecimal custom-input custom-border custom-width-lg" autocomplete="off"
+                               [(ngModel)]="taForm.MFs_Custodied_dollar" name="MFs_Custodied_dollar" rangeValidator minRange="0" maxRange="100000000000"
+                               (ngModelChange)="valueChanged($event, 'MFs_Custodied_dollar'); CalculateBrokerageDollar(); " #mfsc2="ngModel"
+                               [ngClass]="{'error-txt-border': mfsc2.hasError('rangeValidator')}" maxlength="15"
+                               (focus)="notFocuseMfsc=false" (focusout)="notFocuseMfsc=true"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$" placeholder="Ex. 200,000,000">
+                    </div>
+                    <div *ngIf="notFocuseMfsc && mfsc.classList.contains('ng-invalid' ) && mfsc.classList.contains('ng-touched')&& !(mfsc2.hasError('rangeValidator'))" class="error-custom-msg  mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseMfsc && mfsc2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="MFs (Custodied) ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal" [ngModel]="taForm.MFs_Custodied_percentage | number:'1.1-1'" autocomplete="off"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$" (ngModelChange)="taForm.MFs_Custodied_percentage=$event; valueChanged($event, 'Advisory_dollar')" name="MFs_Custodied_percentage" placeholder="0.0" disabled>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9">
+                    <label>MFs (Direct):</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #mfsd (keydown)="
+                        checkValueAum($event)" placeholder="Ex. 200,000,000" class="custom-input commaSeparatedNoDecimal custom-border custom-width-lg"
+                               [(ngModel)]="taForm.MFs_Direct_dollar" name="MFs_Direct_dollar" rangeValidator minRange="0" maxRange="100000000000"
+                               [ngClass]="{'error-txt-border': mfsd2.hasError('rangeValidator')}" maxlength="15"
+                               (ngModelChange)="valueChanged($event, 'MFs_Direct_dollar'); CalculateBrokerageDollar();" autocomplete="off" #mfsd2="ngModel"
+                               (focus)="notFocuseMfsd=false" (focusout)="notFocuseMfsd=true"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$">
+                    </div>
+                    <div *ngIf="notFocuseMfsd && mfsd.classList.contains('ng-invalid' ) && mfsd.classList.contains('ng-touched') && !(mfsd2.hasError('rangeValidator'))" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseMfsd && mfsd2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="MFs (Direct) ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal" [ngModel]="taForm.MFs_Direct_percentage | number:'1.1-1'" (ngModelChange)="taForm.MFs_Direct_percentage=$event" name="MFs_Direct_percentage" placeholder="0.0" disabled>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9">
+                    <label>Variable Annuities:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #variableAnnuities (keydown)="
+                        checkValueAum($event)" placeholder="Ex. 200,000,000" class="custom-input commaSeparatedNoDecimal custom-border custom-width-lg"
+                               [(ngModel)]="taForm.Variable_Annuities_dollar" name="Variable_Annuities_dollar" rangeValidator minRange="0" maxRange="100000000000"
+                               (ngModelChange)="valueChanged($event, 'Variable_Annuities_dollar'); CalculateBrokerageDollar(); " autocomplete="off"
+                               [ngClass]="{'error-txt-border': variableAnnuities2.hasError('rangeValidator')}" maxlength="15"
+                               #variableAnnuities2="ngModel"
+                               (focus)="notFocuseVarAnnu=false" (focusout)="notFocuseVarAnnu=true"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$">
+                    </div>
+                    <div *ngIf="notFocuseVarAnnu && variableAnnuities.classList.contains('ng-invalid' ) && variableAnnuities.classList.contains('ng-touched') && !(variableAnnuities2.hasError('rangeValidator'))" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseVarAnnu && variableAnnuities2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="Variable Annuities ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal" [ngModel]="taForm.Variable_Annuities_percentage | number:'1.1-1'" (ngModelChange)="taForm.Variable_Annuities_percentage=$event" name="Variable_Annuities_percentage" placeholder="0.0" disabled>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9">
+                    <label>Fixed Annuities:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #fixedAnnuities (keydown)="
+                        checkValueAum($event)" placeholder="Ex. 200,000,000" [(ngModel)]="taForm.Fixed_Annuities_dollar"
+                               name="Fixed_Annuities_dollar" class="custom-input commaSeparatedNoDecimal custom-border custom-width-lg" #fixedAnnuities2="ngModel"
+                               rangeValidator minRange="0" maxRange="100000000000"
+                               [ngClass]="{'error-txt-border': fixedAnnuities2.hasError('rangeValidator')}" maxlength="15"
+                               (ngModelChange)="valueChanged($event, 'Fixed_Annuities_dollar'); CalculateBrokerageDollar();" autocomplete="off"
+                               (focus)="notFocuseFixAnnu=false" (focusout)="notFocuseFixAnnu=true"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$">
+                    </div>
+                    <div *ngIf="notFocuseFixAnnu && fixedAnnuities.classList.contains('ng-invalid' ) && fixedAnnuities.classList.contains('ng-touched') && !(fixedAnnuities2.hasError('rangeValidator'))" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseFixAnnu && fixedAnnuities2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="Fixed Annuities ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal" [ngModel]="taForm.Fixed_Annuities_percentage | number:'1.1-1'" (ngModelChange)="taForm.Fixed_Annuities_percentage=$event" name="Fixed_Annuities_percentage" placeholder="0.0" disabled>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9">
+                    <label>General Securities:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #generalSecurities (keydown)="checkValueAum($event)" placeholder="Ex. 200,000,000" [(ngModel)]="taForm.General_Securities_dollar"
+                               name="General_Securities_dollar" class="custom-input commaSeparatedNoDecimal custom-border custom-width-lg"
+                               rangeValidator minRange="0" maxRange="100000000000" #generalSecurities2="ngModel"
+                               [ngClass]="{'error-txt-border': generalSecurities2.hasError('rangeValidator')}" maxlength="15"
+                               (ngModelChange)="valueChanged($event, 'General_Securities_dollar'); CalculateBrokerageDollar();" autocomplete="off"
+                               (focus)="notFocuseGenSec=false" (focusout)="notFocuseGenSec=true"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$">
+                    </div>
+                    <div *ngIf="notFocuseGenSec && generalSecurities.classList.contains('ng-invalid' ) && generalSecurities.classList.contains('ng-touched') && !(generalSecurities2.hasError('rangeValidator'))" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseGenSec && generalSecurities2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="General Securities ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal" [ngModel]="taForm.General_Securities_percentage | number:'1.1-1'" (ngModelChange)="taForm.General_Securities_percentage=$event" name="General_Securities_percentage" placeholder="0.0" disabled>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9">
+                    <label>Fixed Income:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #fixedIncome (keydown)="
+                        checkValueAum($event)" placeholder="Ex. 200,000,000" [(ngModel)]="taForm.Fixed_Income_dollar"
+                               name="Fixed_Income_dollar" class="custom-input commaSeparatedNoDecimal custom-border custom-width-lg"
+                               rangeValidator minRange="0" maxRange="100000000000" #fixedIncome2="ngModel" maxlength="15"
+                               (ngModelChange)="valueChanged($event, 'Fixed_Income_dollar'); CalculateBrokerageDollar();" autocomplete="off"
+                               [ngClass]="{'error-txt-border': fixedIncome2.hasError('rangeValidator')}"
+                               (focus)="notFocuseFixInc=false" (focusout)="notFocuseFixInc=true"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$">
+                    </div>
+                    <div *ngIf="notFocuseFixInc && fixedIncome.classList.contains('ng-invalid' ) && fixedIncome.classList.contains('ng-touched') && !(fixedIncome2.hasError('rangeValidator'))" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseFixInc && fixedIncome2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="Fixed Income ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" [ngModel]="taForm.Fixed_Income_percentage | number:'1.1-1'" (ngModelChange)="taForm.Fixed_Income_percentage=$event" name="Fixed_Income_percentage" class="form-control custom-input singleDecimal" placeholder="0.0" disabled>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row form-group m-b-0">
+                <div class="col-9">
+                    <label>AIs, UITs and Cash:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text input-border-color">$</span>
+                        </div>
+                        <input #cash (keydown)="
+                        checkValueAum($event)" placeholder="Ex. 200,000,000" [(ngModel)]="taForm.AIs_UIT_Cash_dollar"
+                               name="AIs_UIT_Cash_dollar" class="custom-input commaSeparatedNoDecimal custom-border custom-width-lg"
+                               rangeValidator minRange="0" maxRange="100000000000" #cash2="ngModel" maxlength="15"
+                               [ngClass]="{'error-txt-border': cash2.hasError('rangeValidator')}"
+                               (ngModelChange)="valueChanged($event, 'AIs_UIT_Cash_dollar'); CalculateBrokerageDollar();" autocomplete="off"
+                               (focus)="notFocuseAICash=false" (focusout)="notFocuseAICash=true"
+                               pattern="^[-+]?(?:[0-9]+,)*[0-9]+(?:\.[0-9]+)?$">
+
+                    </div>
+                    <div *ngIf="notFocuseAICash && cash.classList.contains('ng-invalid') && cash.classList.contains('ng-touched') && !(cash2.hasError('rangeValidator'))" class="error-custom-msg mb-3">
+                        Please enter a valid number.
+                    </div>
+                    <div *ngIf="notFocuseAICash && cash2.hasError('rangeValidator')" class="error-custom-msg mb-3">
+                        Please enter a value between $0 and $100,000,000,000.
+                    </div>
+                </div>
+                <div class="col-3 padding-top33 padding-left-4">
+                    <div class="input-group input-group-sm" title="AIs, UITs and Cash ($) / VAUM ($)">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" [ngModel]="taForm.AIs_UIT_Cash_percentage | number:'1.1-1'" (ngModelChange)="taForm.AIs_UIT_Cash_percentage=$event" name="AIs_UIT_Cash_percentage" class="form-control custom-input  singleDecimal" placeholder="0.0" disabled>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <h1>Financial Summary:</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label>VAUM:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal commaSeparatedNoDecimal" [(ngModel)]="taForm.VAUM"
+                               name="VAUM" placeholder="0" title="SUM(Advisory Asset Mix + Brokerage Asset Mix)" disabled>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label>Ramp:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal commaSeparatedNoDecimal" [ngModel]="taForm.Ramp | number:'1.1-1'" name="Ramp"
+                               placeholder="0.0" (ngModelChange)="taForm.Ramp=$event; CalculateEAUMTotal()" disabled>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label>EAUM:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal commaSeparatedNoDecimal" [(ngModel)]="taForm.EAUM"
+                               name="EAUM" placeholder="0" disabled title="VAUM $ * Ramp %">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <label>T12 GDC:</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text ">$</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal commaSeparatedNoDecimal" [(ngModel)]="taForm.T12_GDC"
+                               name="T12_GDC" placeholder="0" disabled title="SUM(T12 Advisory GDC + T12 Brokerage GDC)">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label>GDC ROA: (bps)</label>
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">bps</span>
+                        </div>
+                        <input type="text" class="form-control custom-input singleDecimal commaSeparatedNoDecimal" id="singleDecimal"
+                               [ngModel]="taForm.GDC_ROA | number:'1.1-1'" (ngModelChange)="taForm.GDC_ROA=$event"
+                               name="GDC_ROA" placeholder="0.0" disabled title="(T12 GDC / VAUM $) *  10,000">
+                    </div>
+                </div>
+
+            </div>
+
+            <!--<div class="row">
+                <div class="col-12">
+                    <h1>Proposal Details:</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label>Affiliation Model</label>
+                    <div class="">
+                        <dx-tag-box #affiliationModel [items]="models" [(ngModel)]="taForm.affiliationModel" id="am" [ngClass]="affiliationModelError == true ? 'error-txt-border' : ''"
+                                    displayExpr="name"
+                                    [showSelectionControls]="true"
+                                    selectAllMode="allPages"
+                                    [maxDisplayedTags]="1"
+                                    placeholder="Select an Affiliation Model"
+                                    valueExpr="id" class="drp TA-down-arrow custom-border" name="affiliationM"  (onFocusOut)="focusOut()" (onFocusIn)="focusIn()">
+
+                        </dx-tag-box>
+
+                    </div>
+                    <div *ngIf="affiliationModelError == true" class="error-custom-msg mb-3">
+                        Please select an Affiliation Model.
+                    </div>
+                    {{affiliationModel.classList}}
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label>Note Term</label>
+               
+
+                        <select #noteTerm class="form-control drp input-sm custom-element custom-border"
+                                [(ngModel)]="taForm.noteTerm" name="noteT" (ngModelChange)="onNTChanged($event)" [ngClass]="taForm.noteTerm == '' ? 'drp-placeholder' : ''" required>
+                            <option value="" hidden selected>Select Note Term</option>
+                            <option *ngFor="let nt of terms" class="optData"
+                                    value="nt.id">
+                                {{ nt.name }}
+                            </option>
+
+                        </select>
+                        <div *ngIf="noteTerm.classList.contains('ng-invalid') && noteTerm.classList.contains('ng-touched')" class="error-custom-msg mb-3">
+                            Please select a Note Term.
+                        </div>
+                </div>
+            </div>-->
+
+            <!-- <div class="d-flex justify-content-end">
+                <div class="p-2">
+                    <button class="btn btn-primary clear-btn" (click)="onClear(newTAForm)">
+                        Clear
+                    </button>
+                </div>
+                <div class="p-2">
+                    <button class="btn btn-primary btn-claculate" type="submit" [disabled]="!newTAForm.form.valid" (click)="CalculatePost()">
+                        Calculate
+                    </button>
+                </div>
+
+            </div> -->
+
+
+        </div>
+    </form>
+</div>

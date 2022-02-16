@@ -1,0 +1,83 @@
+<div class="assumptiontable-form form-group">
+  <!--<form #assumptionTableForm="ngForm">
+    <div class="container">
+      <div class="row form-header">
+        <div class="col-5">
+          <h6>Assumption Tables -> Manage</h6>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-5">
+          <select class="form-control input-sm" #selection (change)="getTableRows(selection.value)">
+            <option value=0>Select Table</option>
+            <optgroup *ngFor="let category of categories" label= {{category}} >
+                <ng-container *ngFor="let table of tables">
+                  <option value={{table.id}} *ngIf = "(category === table.category)">
+                      {{table.name}}
+                  </option>
+                </ng-container>
+            </optgroup>
+          </select>
+
+        </div>
+        <div class="col-2">
+          <button type="button" class="btn btn-primary" (click) ="ShowAddTable(true)"><span class="fa fa-plus-square"></span>&nbsp; Add Table</button>
+        </div>
+        <div class="col-2" *ngIf="showTable">
+          <button type="button" class="btn btn-primary" (click) = "ShowAddTable(true, true)"><span class="fa fa-pen"></span>&nbsp; Edit Table</button>
+        </div>
+      </div>
+
+      <br>
+
+      <app-addtable
+        [tableTypes]=tableTypes (closeaAddTable)="ShowAddTable(false)" (assumptionTableChanged)="getTables()" *ngIf="(isAddTableVisible == true)" [dataToEdit]="editData" [isEditMode] = "isEditMode">
+      </app-addtable>
+
+      <br>
+
+      <div class="row" *ngIf="showTable">`
+        <div class="col-12">
+          <table mat-table [dataSource]="dataSource" style="width:100%" matSort>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+              <td mat-cell *matCellDef="let item"> {{item.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Value ({{tableType}}) </th>
+              <td mat-cell *matCellDef="let item"> {{item.value}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isActive">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+              <td mat-cell *matCellDef="let item">
+                <mat-checkbox [checked]="item.isActive" style="pointer-events: none;"></mat-checkbox>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="showTable">
+        <div class="col-3">
+          <button type="button" class="btn btn-primary" (click) ="ShowAddTableRow(true)"><span class="fa fa-plus-square"></span>&nbsp; Add Row</button>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="showTable">
+        <div class="col-12">
+          <app-addtablerow [tableData]=currentTable (closeAddTableRow)="ShowAddTableRow(false)" (dataChanged)="getTableRows(currentTable.id)" *ngIf="(isAddTableRowVisible == true)"></app-addtablerow>
+        </div>
+      </div>
+
+    </div>
+  </form>-->
+</div>

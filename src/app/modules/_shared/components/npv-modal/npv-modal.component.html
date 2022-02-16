@@ -1,0 +1,20 @@
+<div class="modal-wrapper">
+
+    <div class="modal-body goal-body modal-padding">
+        <h1 class="head-font">NPV</h1>
+        <button (click)="closeModal()" class="cross-btn">
+            <!--<i class="fa fa-times" aria-hidden="true"></i>-->
+            <img src="assets/img/icon-delete.png">
+        </button>
+        <hr>
+        <div class="row">
+            <div class="col-4">
+                <app-npv-profit-loss [offerData]="offerData"></app-npv-profit-loss>
+            </div>
+            <div class="col-8">
+                <app-npv-data [offerData]="offerData"></app-npv-data>
+            </div>
+        </div>
+        <!-- <app-npv-data [offerData]="offerData"></app-npv-data> -->
+    </div>
+</div>

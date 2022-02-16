@@ -1,0 +1,298 @@
+
+
+<div class="col-12 bg-white-min-height HistoryOffer">
+    <div class="row">
+        <div class="history-title">
+            <h1 class="page-title">History</h1>
+        </div>
+    </div>
+    <div class="table-container-padding history">
+        <div class="row">
+            <div class="col-6">
+
+                <span class="table-title">{{filteredCount}}{{filteredCount==1?' Application':' Applications'}}</span>
+
+                <!-- <span (click)="filterData()">Filter</span> -->
+            </div>
+        </div>
+        <div class="row mtop-15">
+            <!-- <div class="col-12" > -->
+                
+                <div *ngFor="let filter of filters" class="col-2 d-none dateContainer" [ngClass]="isFlag ? 'd-block' : ''">
+                    <div class="dateFilter"><span class="black" (click)="filter.showFilterBox = !filter.showFilterBox; showFilterBox(filter)">{{filter.name}}: <span class="blue" *ngIf="filter.filterExp">{{filter.filterExp}}</span>
+                    </span>
+                        <span (click)="removeFilter(filter)" class="DateCross">X</span>
+                        <div class="dateFilterForm" *ngIf="filter.showFilterBox">
+                            <div class="row padding-15" *ngIf="filter.name == 'VAUM'">
+                                <div class="col-6">
+                                    <p><strong>Min</strong></p>
+                                    <input [(ngModel)]="vaumMin" [value]="vaumMin " type="number" name ="min" min="0.01" max="999999999.99" class="form-control" (keypress)="valueChanged($event, 'vaumMin')" oninput="this.value = 
+                                    !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null" (blur)="formatValue('vaumMin')">
+                                </div>
+                                <div class="col-6">
+                                    <p><strong>Max</strong></p>
+                                    <input [(ngModel)]="vaumMax" [value]="vaumMax " name ="max" type="number" class="form-control" (keypress)="valueChanged($event, 'vaumMax')" oninput="this.value = 
+                                    !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null" (blur)="formatValue('vaumMax')">
+                                </div>
+                                <div class="col-12" *ngIf="maxError">
+                                    <span class="error-box"><i class="fa fa-exclamation-circle red" aria-hidden="true"></i> Min must be less than max.</span>
+                                </div>
+                            </div>
+                            <div class="row padding-15" *ngIf="filter.name == 'Created By'">
+
+                                <dx-list
+                                    [dataSource]="createdByList"
+                                    selectionMode="all"
+                                    selectAllMode="page"
+                                    displayExpr="createdBy"
+                                    valueExpr="createdBy"
+                                    showSelectionControls="true"
+                                    [selectedItemKeys]="selectedCreatedByList"
+                                    (onSelectionChanged)=onSelectionChanged($event)
+                                ></dx-list>
+
+                                <div class="col-12" *ngIf="notSelected">
+                                    <span class="error-box"><i class="fa fa-exclamation-circle red" aria-hidden="true"></i> Please make a valid selection.</span>
+                                </div>
+
+                            </div>
+                            <div class="row padding-15" *ngIf="filter.name == 'Prior Firm Type'">
+
+                                <dx-list
+                                    id="priorFirmTypeList"
+                                    [dataSource]="priorFirmTypeList"
+                                    selectionMode="all"
+                                    selectAllMode="page"
+                                    showSelectionControls="true"
+                                    displayExpr="priorFirmType"
+                                    valueExpr="priorFirmType"
+                                    [selectedItemKeys]="selectedPriorFirmTypeList"
+                                    (onSelectionChanged)=onPriorTypeSelectionChange($event)
+                                ></dx-list>
+
+                                <div class="col-12" *ngIf="notSelected">
+                                    <span class="error-box"><i class="fa fa-exclamation-circle red" aria-hidden="true"></i> Please make a valid selection.</span>
+                                </div>
+                            </div>
+                            <div class="row padding-15" *ngIf="filter.name == 'Created Date'">
+                                <div class="col-6">
+                                    <p><strong>From</strong></p>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-field">
+                                            <div class="dx-field-value">
+                                                <dx-date-box
+                                                    [showClearButton]="false"
+                                                    [useMaskBehavior]="true"
+                                                    pickerType="calendar"
+                                                    displayFormat="shortDate"
+                                                    format="shortDate"
+                                                    type="date"
+                                                    [(value)]="fromDate"
+                                                    
+                                                    >
+                                                </dx-date-box>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <p><strong>To</strong></p>
+                                    <div class="dx-fieldset">
+                                        <div class="dx-field">
+                                            <div class="dx-field-value">
+                                                <dx-date-box
+                                                    [showClearButton]="false"
+                                                    [useMaskBehavior]="true"
+                                                    pickerType="calendar"
+                                                    displayFormat="shortDate"
+                                                    format="shortDate"
+                                                    type="date"
+                                                    [(value)]="toDate"
+                                                    
+                                                    >
+                                                </dx-date-box>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12" *ngIf="createdDateError">
+                                    <span class="error-box"><i class="fa fa-exclamation-circle red" aria-hidden="true"></i> End Date must be on or after the Start Date.</span>
+                                </div>
+
+                            </div>
+                            <div class="button-container clearfix">
+                                <div class="button-box">
+                                    
+                                    <button class="btn btn-default" (click)="cancelFilter(filter)">Cancel</button>
+                                    <button class="btn btn-primary" (click)="applyFilter(filter)">Apply</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-1">
+                
+                    <div class="btn-group" dropdown #dropdown="bs-dropdown" [autoClose]="true">
+                       <button id="button-basic" #ddButton dropdownToggle type="button" class="pl-0 btn dropdown-toggle"
+                               aria-controls="dropdown-basic" >
+                        + Filter
+                       </button>
+                       <div #dropdownList id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                       role="menu" aria-labelledby="button-basic">
+                           <span class="cross" (click)="dropdown.hide()"
+                           ><i class="fa fa-times" aria-hidden="true"></i></span>
+                           <ul>
+                               <li role="menuitem" *ngFor="let filterI of filterItem" (click)="filterBlock(filterI)" [ngClass]="filterI.isDisabled ? 'disabled-list':''"><a class="dropdown-item" >{{filterI.name}}</a></li>
+                              
+                               
+                             </ul>
+                       </div>
+                       
+                     </div> 
+                     <!-- <div class="btn-group">
+                       <button type="button" class="btn dropdown-toggle" (click)="openMenu()">
+                        + Filter
+                       </button>
+                       <div class="dropdown-menu">
+                           <span class="cross">X</span>
+                           <ul>
+                           
+                               <li *ngFor="let filterI of filterItem"><a class="dropdown-item" href="#">{{filterI.name}}</a></li>
+                              
+                               
+                             </ul>
+                       </div>
+                       
+                     </div> -->
+               </div>
+            <!-- </div> -->
+            
+        </div>
+
+        <div class="row pd-bottom40">
+            <div class="col-12">
+
+                <dx-data-grid #gridContainer
+                              id="gridContainer"
+                              class="gridContainerPL"
+
+                              [dataSource]="dataSource"
+
+                              [showColumnLines]="false"
+                              [showRowLines]="true"
+                              [showBorders]="true"
+                              [rowAlternationEnabled]="false"
+                              [columnAutoWidth]="true"
+
+                              [allowColumnResizing]="true"
+                              (onOptionChanged)="checkPageSize($event)"
+                              (onContentReady)="onContentReady($event)"
+                              
+                              >
+                    
+                    <dxo-paging [pageSize]="25"></dxo-paging>
+                    <dxo-pager 
+                        [visible]="totalCount > 25 ? true : false"
+                        [showPageSizeSelector]="true"
+                        [allowedPageSizes]=allowedPages
+                        [showInfo]="true"
+                        [showNavigationButtons]="true">
+                    </dxo-pager>
+                    <!-- <dxo-header-filter [visible]="true"></dxo-header-filter> -->
+                    <dxo-remote-operations
+                        [paging]="true"
+                    >
+                    </dxo-remote-operations>
+
+
+                    <dxi-column [allowFiltering]="false"
+                                [allowSorting]="false"
+                                dataField="advisorTeamName"
+                                caption="Advisor/Team Name"
+                                alignment="left"
+                                cellTemplate="rowNameNPV">
+                        <div *dxTemplate="let rnpv of 'rowNameNPV'">
+                            <strong title="{{rnpv.data.advisorTeamName}}" class="column-one grid-color">{{ rnpv.data.advisorTeamName }}</strong>
+                        </div>
+                    </dxi-column>
+
+
+                    <dxi-column [allowFiltering]="false"
+                                [allowSorting]="false"
+                                dataField="crd"
+                                caption="CRD"
+                                alignment="right">
+                    </dxi-column>
+                    <dxi-column [allowFiltering]="false"
+                                [allowSorting]="false"
+                                dataField="priorFirmType"
+                                caption="Prior Firm Type"
+                                alignment="left">
+                    </dxi-column>
+
+                    <dxi-column [allowFiltering]="true"
+
+                                [allowSorting]="false"
+                                dataField="vaum"
+                                caption="VAUM"
+                                format="currency"
+
+                                alignment="right"
+                                >
+                                
+
+                    </dxi-column>
+                    <dxi-column [allowFiltering]="false"
+                                [allowSorting]="false"
+                                dataField="taAmount"
+                                caption="TA Amount"
+                                format="currency"
+                                alignment="right">
+                    </dxi-column>
+                    <dxi-column [allowFiltering]="false"
+                                [allowSorting]="false"
+                                dataField="numberOfOffers"
+                                caption="# of Offers"
+                                alignment="right">
+                    </dxi-column>
+                    <dxi-column [allowFiltering]="false"
+                                [allowSorting]="false"
+                                dataField="createDate"
+                                caption="Created Date"
+                                dataType="date"
+
+                                format="MM/dd/yyyy" 
+
+                                alignment="right">
+                    </dxi-column>
+                    <dxi-column [allowFiltering]="false"
+                                [allowSorting]="false"
+                                dataField="createdBy"
+                                caption="Created By"
+                                alignment="left">
+                    </dxi-column>
+
+                    <dxi-column [allowFiltering]="false"
+                                [allowSorting]="false"                               
+                                alignment="right"
+                                cellTemplate="viewBtn">
+
+                                <div *dxTemplate="let i of 'viewBtn'" class="dx-user-name-cell">
+                                    <button type="button" class="btn btn-primary custom-btn btn-sm text-uppercase" mdbBtn  mdbWavesEffect (click)="onRowClick(i.data)"
+                                >View</button>
+                                </div>
+                    </dxi-column>
+
+
+
+                </dx-data-grid>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+

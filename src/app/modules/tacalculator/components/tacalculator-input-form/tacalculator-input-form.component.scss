@@ -1,0 +1,222 @@
+.form-container {
+    margin-left: -35px;
+}
+.m-b-0{
+ margin-bottom: 0;
+}
+.tacaculator-form {
+    background-color: #fff;
+    color: #111;
+   
+    h1{
+        color:#4F5861;
+        font-size: 20px;
+        margin-bottom: 0;
+        margin-top: 30px;
+        font-family: "Roboto-Bold";
+        margin-bottom: 4px;
+
+        &.top18{
+            margin-top: 18px;
+        }
+    }
+    label{
+        color: #606F7F;
+        font-family: 'Roboto-Bold',sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 0;
+        margin-top: 12px;
+    }
+    input::placeholder{
+        font-size: 14px;
+        color:#606F7F;
+        font-style: italic;
+        
+
+    }
+    .input-group-text{
+        background-color: #cfcfd2;
+        border-right: none;
+        align-items: center;
+        justify-content: center;
+        width: 43px;
+       // border:1px solid #8893a8;
+    }
+    .commaSeparatedNoDecimal{
+        border:1px solid #8893A8;
+        border-left: 0;
+    }
+    .singleDecimal{
+        background-color: #EBEBEB;
+        border:1px solid #d7d9dd;
+        border-left: 0;
+        border-radius: 2px;
+        //opacity: 0.4;
+        &::placeholder{
+            color: #606F7F;
+            opacity: 1;
+        }
+        &:-ms-input-placeholder{
+            color: #606F7F;
+            opacity: 1;
+        }
+    }
+    .padding-top33{
+        padding-top:33px;
+    }
+
+    .d-flex{
+        div{
+            &:last-child{
+                width: 130px;
+            }
+        }
+    }
+    .custom-border{
+        padding:0px 14px;
+        border:1px solid #8893A8;
+        border-radius: 2px;
+        height: 43px;
+        line-height: 43px;
+    }
+    .custom-input{
+        padding: 0 14px;
+        height: 43px;
+        line-height: 43px;
+    }
+    
+    .input-border-color{
+        border-color:#8893A8;
+        /*background-color: #DEDEDF;*/
+    }
+    .offset-md-custom{
+        margin-left: 54%;
+    }
+    .clear-btn{
+        background-color: #E3E7EE;
+        border:none;
+        color: #00000099;
+        width: 90px;
+        height: 40px;
+        font-family: "Roboto-Bold";
+        
+    }
+    .btn-claculate{
+        background-color: #0076C8;
+        border:none;
+        width: 124px;
+        height: 40px;
+        font-family: "Roboto-Bold";
+        opacity: 1;
+       
+    }
+    .padding-left-4{
+        padding-left: 4px;
+    }
+    .btn-primary{
+        font-size: 14px;
+        border-radius: 2px; 
+        padding: 5px 15px;
+        text-transform: uppercase;
+    }
+}
+
+.form-header {
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+}
+
+
+.error-text {
+    display: inline-block;
+    color: red;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.cal-clear-buttons {
+    margin: 15px 15px 15px 30px;
+}
+
+select {
+    height: 27px;
+}
+
+.dline {
+    border-top: solid;
+    padding: 6px;
+}
+
+.text-indent {
+    text-indent: 15px;
+}
+.margin-t{
+    margin-top:10px;
+}
+
+.error-text {
+    padding-top: 2px;
+    color: red;
+}
+.ng-touched {
+    &.error-class {
+        border: 1px solid #CD0000;
+    }
+    &.ng-invalid:not(form) {
+        border: 1px solid #CD0000 !important;
+        background-color: #FFF7D9 !important;
+    }
+}
+
+.drp-placeholder {
+    font-size: 14px;
+    color:#606F7F;
+    font-style: italic;
+}
+option{
+    font-style: normal;
+    color: #4F5861;
+    font-weight: 500;
+    font-size: 16px;
+}
+.error-txt-border {
+    border: 1px solid red !important;
+}
+
+.drp {   
+    font-size: 14px;
+    font-family: "roboto", sans-serif;
+    height: 43px;   
+}
+
+.drp-placeholder {
+    color: #999;
+    font-style: italic;
+    font-size: 0.875rem;
+    /*font-family: roboto;*/
+    padding-left: 8px;
+}
+.custom-width {
+    width: 71%;
+}
+
+.custom-width-lg {
+    width: 80%;
+}
+::ng-deep .dx-tag-content {
+    background-color: white !important;
+    padding-top: 7px;
+}
+input[id=crd]::-webkit-outer-spin-button,
+input[id=crd]::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[id=crd] {
+    -moz-appearance: textfield; /* Firefox */
+}

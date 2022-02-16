@@ -1,0 +1,25 @@
+<b>{{Table.name}} </b>
+<table mat-table [dataSource]="dataSource" style="width:100%" matSort>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+    <td mat-cell *matCellDef="let item"> {{item.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="value">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Value ({{tableType}}) </th>
+    <td mat-cell *matCellDef="let item"> {{item.value}} </td>
+  </ng-container>
+
+  <div *ngFor="let model of Models">
+  <ng-container matColumnDef="{{model.name}}">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{model.name}} </th>
+    <td mat-cell *matCellDef="let item">
+      <mat-checkbox (change)="onClick(item, model, Models, $event)"  [checked]="isChecked(item, model)" id="row{{item.id}}-model{{model.id}}" #checkboxes></mat-checkbox>
+    </td>
+  </ng-container>
+ </div>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': highlightedRows.indexOf(row.id) > -1 ? true : false }"></tr>
+</table>

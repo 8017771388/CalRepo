@@ -1,0 +1,129 @@
+#export{
+    max-height: none;
+}
+
+.gridContainerOC{
+    .dx-datagrid .dx-row:first-child {
+        td{
+            border-top: 1px solid #E3E7EE !important;
+        }
+        
+    }   
+
+    
+}
+
+.columnWidth{
+    width:20%;
+}
+
+.bottom-disclaimer {
+    color: #384456e8;
+    font-size: 16px;
+    padding-left: 15px;
+    padding-top:20px;
+    padding-bottom:20px;
+    .image-container{
+        padding-right: 0;
+        padding-left: 0;
+        min-height: 80px;
+    }
+    .text-container{
+        display: flex;
+        align-items: center;
+    }
+}
+.modal-header{
+    border: none;
+    position: relative;
+    .print-btn{
+        color:#0076C8;
+        font-size: 16px;
+        padding-right:15px;
+        position: absolute;
+        right: 0;
+        border: 0;
+        background: transparent;
+        top:5px;
+    
+    }
+}
+.cross-btn{
+    top:0;
+}
+
+.heading{
+    height: 50px;
+    line-height: 50px;
+    background-color: #0062cc;
+    padding: 0 10px;
+    color: #fff;
+    font-weight: bold;
+    h1{
+        font-size: 34px;
+        line-height: 50px;
+    }
+}
+.data-container{
+    border:1px solid #ccc;
+}
+.first-table{
+    width: 100%;
+    margin-top: 20px;
+    font-size: 14px;
+    color:#4F5861;
+    tbody{
+        background-color: #f1f3f5;
+    }
+    
+}
+.first-table th{
+    padding: 10px;
+    background-color: #e3e3e3;
+    font-size: 20px;
+    &:first-child{
+        width:348px;
+    }
+}
+.first-table td{
+    padding:10px;
+    vertical-align: top;
+    font-size: 16px;
+}
+.first-table span:first-child{
+    padding: 0 75px 0 0;
+    display: inline-block;
+}
+.sec-table{
+    width:100%;
+    font-size: 14px;
+    color:#4F5861;
+    border:1px solid #ccc;
+}
+.sec-table th{
+    background-color: #B5C4D6;
+    padding: 10px;
+   
+}
+.sec-table tbody tr td{
+    padding: 10px;
+}
+.sec-table tbody tr td:first-child{
+    font-weight: bold;
+}
+.sec-table tbody tr:first-child td{
+    background-color: #CEE3F6;
+    padding: 10px;
+    font-weight: bold;
+}
+.sec-table tbody tr{
+    border-top: 1px solid #e3e3e3;
+}
+.sec-table th:first-child{
+    border-right: 5px solid #CECECE;
+    width: 250px;
+}
+.sec-table td:first-child{
+    border-right: 5px solid #CECECE;
+    width: 250px;
+}

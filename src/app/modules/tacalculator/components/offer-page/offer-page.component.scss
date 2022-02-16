@@ -1,0 +1,92 @@
+.OfferPage{
+    padding: 10px 10px 10px 25px;
+    .hand-cursor{
+        cursor: pointer;
+    }
+    .subtext{
+        font-size: 18px;
+        font-family: "Roboto-Bold";
+        color:#4F5861;
+    }
+    .clear-btn{
+        background-color: #E3E7EE;
+        border:none;
+        color: #00000099;
+        width: 90px;
+        height: 40px;
+        font-family: "Roboto-Bold";
+        
+    }
+    .btn-claculate{
+        background-color: #0076C8;
+        border:none;
+        width: 124px;
+        height: 40px;
+        font-family: "Roboto-Bold";
+        //opacity: 1;
+    }
+    .btn-section{
+        .p-2{
+            display:inline-block
+        }
+        .pl-0{
+            padding-left: 0 !important;
+        }
+    }
+}
+
+.error-container{
+    margin-left: 338px;
+    text-align: left;
+    
+}
+
+#gridContainer{
+    .option{
+        text-align:center;
+        margin-left: 22px;
+    }
+    .dx-fieldset{
+        margin-top : 5px;
+        margin-bottom: 5px;
+        .dx-field-value-static, .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button){
+            width: 100%;
+        }
+        
+    }
+    .dx-hidden-cell{
+        visibility:visible;
+    }    
+        
+}
+.gridContainerOC{
+    .dx-datagrid .dx-row:first-child {
+        td{
+            border-top: 1px solid #E3E7EE !important;
+        }
+        
+    }   
+
+    
+}
+.offer-tab-title {
+    font-size: 14px;
+    color: #4F5861;
+}
+.bottom-disclaimer {
+    color: #384456e8;
+    font-size: 16px;
+    padding-left: 15px;
+    padding-top:20px;
+}
+
+.export-modal{
+    color:#0076C8;
+    font-size: 16px;
+    margin-top: 20px;
+
+    &.disabled{
+        cursor: pointer;
+        color: #6c757d;
+    }
+}

@@ -1,0 +1,44 @@
+.admin-container {
+    //padding:25px;
+    //border:20px solid #F4F8FB;
+   
+
+    padding:37px 50px 50px 3px;
+    .side-bar-back {
+        background-color: #F4F8FB;
+    }
+}
+
+.bg-white-min-height{
+    background-color: #fff;
+    min-height: 66vh;
+}
+.navbar{
+    padding: 0;
+}
+.navbar-nav {
+    .nav-link {
+        cursor: pointer;
+        color: #0076C8;
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 14px;
+    }
+}
+.nav-link {
+    padding-top:0 ;
+    padding-bottom: 40px;
+    &:focus {
+        color: #4F5861;
+    }
+
+    &:hover {
+        color: #4F5861;
+    }
+
+    &.active {
+        color: #4F5861 !important;
+        font-weight: 600 !important;
+    }
+}

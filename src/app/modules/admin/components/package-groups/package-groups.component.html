@@ -1,0 +1,43 @@
+<div class="models-form form-group">
+  <form>
+      <div class="container">
+         <div class="row form-header">
+          <div class="col-3">
+            <h6>Package Groups</h6>
+          </div>
+          <div class="col-1">
+            <a href="#" (click) ="showAddGroup(true)" title="Add Group"><i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <br>
+        <app-add-group (closeAddGroup) = "showAddGroup(false)" (emitSaveGroup) = "reloadTable()" [selectedItem] = "selectedItem" *ngIf = "(isAddGroupVisible == true)"></app-add-group>
+
+       <br>
+    <div class="row">
+        <div class="col-12">
+
+          <table mat-table [dataSource]="dataSource" style="width:100%" matSort>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+              <td mat-cell *matCellDef="let item" >
+              <a href="#" (click) = "populateForm(item)">{{item.name}}</a>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="isActive">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+              <td mat-cell *matCellDef="let item">
+                <mat-checkbox [checked]="item.isActive" style="pointer-events: none;"></mat-checkbox>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        </div>
+      </div>
+  </form>
+</div>

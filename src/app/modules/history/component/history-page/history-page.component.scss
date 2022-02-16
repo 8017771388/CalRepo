@@ -1,0 +1,212 @@
+.pd-bottom40 {
+    padding-bottom: 40px;
+}
+
+.pd-top20 {
+    padding-top: 20px;
+}
+
+.table-container-padding {
+    padding: 20px 15px 15px 10px;
+    width: 100%;
+}
+
+.table-title {
+    font-size: 16px;
+    /*font-weight: 600;*/
+    color: #4F5861;
+    margin-right: 10px;
+}
+.bg-white-min-height {
+    background-color: #fff;
+    min-height: 66vh;
+    margin-top: 25px;
+    margin-left: 25px;
+}
+.history-title {  
+    color: #4F5861;
+    padding-top: 26px;
+    padding-left: 26px;
+}
+.page-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+ #gridContainer {
+    
+    .dx-row {
+
+
+        td[role="columnheader"] :last-child {
+             text-align: left !important;
+            text-transform: uppercase;
+            border-right: none !important;
+        }
+
+       
+    }
+}
+
+.dropdown-toggle{
+    color: #0076C7;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    &:after{
+        display:none;
+    }
+    &:focus{
+        box-shadow: none;
+    }
+}
+.dateContainer{
+    padding-right: 0;
+    // margin-left: 18px;
+}
+.dateFilter{
+    background-color: #e7e7e7;
+    border: 1px solid #babcbf;
+    font-size: 12px;
+    color:#16181b;
+    padding: 5px;
+    position: relative;
+
+    .red{
+        color: #C61B2E;
+    }
+    
+    .black{
+        color: black
+    }
+
+    .blue{
+        color: #0076C7;
+    }
+
+    .DateCross{
+        border-left:1px solid #babcbf;
+        position: absolute;
+        top:0;
+        right: 0;
+        line-height: 28px;
+        text-align: center;
+        font-size: 12px;
+        width:20px;
+        background-color: #fff;
+
+    }
+    .dateFilterForm{
+        position: absolute;
+        top:30px;
+        left:0;
+        width: 280px;
+        min-height: 144px;
+        border:1px solid #babcbf;
+        z-index: 1000;
+        background: #fff;
+        box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75); 
+       .button-box{
+           padding-top: 5px;
+           width:149px;
+           float: right;
+           .btn-default{
+               margin-right: 5px;
+               border: 1px solid #ced4da;
+           }
+       }
+        .padding-15{
+            padding: 15px;
+        }
+        p{
+            margin-bottom: 5px;
+        }
+        .button-container{
+            height: 50px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #dcdcdc;
+        }
+        .error-box{
+            display: block;
+            padding-top: 10px;      
+            padding-bottom: 10px;
+            margin-top: 10px;
+            border: 1px solid #FFD2D6;
+            background-color: #FFF4F5;
+            i{
+                margin-left : 10px;
+            }
+        }
+    }
+}
+.dropdown-menu{
+    height:150px !important;
+    width:200px;
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75); 
+    .cross{
+        width: 25px;
+        height: 23px;
+        color: #4F5861;
+        border:1px solid #CFCFCF;
+        position: absolute;
+        top:10px;
+        right: 10px;
+        line-height: 23px;
+        text-align: center;
+        font-size: 12px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px; 
+        cursor: pointer; 
+
+    }
+    ul{
+        list-style: none;
+        padding-left: 0;
+        font-size:14px;
+        li{
+            a{
+                background-color: transparent;
+                cursor: pointer;
+                color: #0076C7;
+                padding-left:11px;
+                &:hover{
+                    background-color: transparent;
+                    color: #0076C7;
+                }
+                &:active{
+                    color:#0076C7;
+                }
+            }
+        }
+
+        .disabled-list{
+            a{
+                color: #6c757d!important;
+                cursor: default;
+            }
+        }
+
+    }
+}
+.pl-0{
+    padding-left:0;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .mtop-15{
+      margin-top:15px;
+  }
+
+  

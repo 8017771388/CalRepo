@@ -1,0 +1,151 @@
+<div class="pl-container">
+    <div class="row pandl-title">{{modelId.name}}</div>
+    <div class="row">
+        <div class="col-12">
+
+            <dx-data-grid #gridContainer
+                id="gridContainer"
+                class="gridContainerPL"
+                [dataSource]="plData"
+                [showColumnLines]="false"
+                [showRowLines]="true"
+                [showBorders]="true"
+                [rowAlternationEnabled]="false"
+                [columnAutoWidth]="true" 
+                (onCellPrepared)="onCellPrepared($event)"
+                >
+
+                <dxo-paging [enabled]="false"></dxo-paging>
+
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                            dataField="rowName"
+                            caption=""
+                            alignment="left"
+                            headerCellTemplate="titleHeaderTemplate"
+                            cellTemplate="rowName"
+                            > 
+                    <div *dxTemplate="let rn of 'rowName'">
+                        <span title="{{rn.data.rowName}}" class="column-one" [ngClass]="{'grid-color':rn.data.rowLevel<3}">{{ rn.data.rowName }}</span>
+                    </div>               
+                </dxi-column>
+                <div *dxTemplate="let info of 'titleHeaderTemplate'">
+                    <span *ngIf="this.plHeader.length > 0" >{{ this.plHeader[0].rowName }}</span>
+                </div>
+                
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                             dataField="roaValue" 
+                             caption="ROA"
+                             alignment="right">
+                </dxi-column>
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false" 
+                            dataField="year1Value" 
+                            caption="Year1"
+                            alignment="right">
+                </dxi-column>
+                
+            </dx-data-grid>
+        </div>
+
+    </div>
+
+    <!--<div class="row">
+        <div class="col-12">
+
+            <dx-data-grid #gridContainer
+                id="gridContainer"
+                class="gridContainerPL"
+                [dataSource]="ocData"
+                [showColumnLines]="false"
+                [showRowLines]="true"
+                [showBorders]="true"
+                [rowAlternationEnabled]="false"
+                [columnAutoWidth]="true" 
+                
+                >
+
+                <dxo-paging [enabled]="false"></dxo-paging>
+
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                            dataField="rowName"
+                            caption=""
+                            alignment="left"
+                            headerCellTemplate="titleHeaderTemplateOC"
+                            cellTemplate="rowNameOC"
+                            > 
+                    <div *dxTemplate="let rn of 'rowNameOC'">
+                        <span title="{{rn.data.rowName}}" class="column-one grid-color" >{{ rn.data.rowName }}</span>
+                    </div>               
+                </dxi-column>
+                <div *dxTemplate="let info of 'titleHeaderTemplateOC'">
+                    <span *ngIf="this.ocHeader.length > 0" >{{ this.ocHeader[0].rowName }}</span>
+                </div>
+                
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false"
+                             dataField="taOfferValue" 
+                             caption="TA $ Offer"
+                             alignment="right">
+                </dxi-column>
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false" 
+                            dataField="taAmortizationValue" 
+                            caption="TA $ Amortization"
+                            alignment="right">
+                </dxi-column>
+                <dxi-column [allowFiltering]="false"
+                            [allowSorting]="false" 
+                            dataField="roicValue" 
+                            caption="ROIC"
+                            alignment="right">
+                </dxi-column>
+                
+            </dx-data-grid>
+        </div>
+
+    </div>-->
+    <!--<div class="row">
+        <div class="col-12">
+            <button type="button" class="btn npv-modal" (click)="npvModal()">View NPV Data- modal</button>
+        </div>
+    </div>-->
+
+    <!--<div class="row">
+        <div class="col-12">
+            <button type="button" class="btn npv-modal" (click)="npvPopUp()">View NPV Data</button>
+        </div>
+    </div>-->
+
+    <div class="row">
+        <div class="col-12 padding-l-2">
+            <a type="button" class="btn npv-modal" (click)="openNpvTab(offerData[0].offerId)">View Offer Criteria and NPV Data</a>
+
+            <!-- <a type="button" class="btn npv-modal" (click)="closeNpvTab(offerData)">Close NPV Data - Tab</a> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 padding-l-2">
+            <a type="button" class="btn npv-modal" (click)="openAssumptionTab(offerData[0].offerId)">Dynamic Assumptions</a>
+
+            <!-- <a type="button" class="btn npv-modal" (click)="closeNpvTab(offerData)">Close NPV Data - Tab</a> -->
+        </div>
+    </div>
+
+    <dx-popup
+        [(visible)]="isPopupVisible"
+        [closeOnOutsideClick]="false"
+        [resizeEnabled]="true"
+        [dragEnabled]="true"
+        position="center"
+        title="NPV"
+        [shading]="false"
+        
+    >
+        <div *dxTemplate="let data of 'content'">
+            <app-npv-data [offerData]="offerData"></app-npv-data>
+        </div>
+    </dx-popup>
+</div>

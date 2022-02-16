@@ -1,0 +1,39 @@
+<div class="bordered">
+  <form #modelForm="ngForm">
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Group Name</label>
+    <div class="col-sm-5">
+      <input id="name" name="name" type="text" [(ngModel)]="addGroupForm.name"
+      placeholder="Group Name" class="form-control" required>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Description</label>
+    <div class="col-sm-5">
+      <input id="description" name="description" type="text" [(ngModel)]="addGroupForm.description"
+      placeholder="Description" class="form-control" required>
+    </div>
+  </div>
+
+
+
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Active</label>
+    <div class="col-sm-5">
+      <select class="form-control" [(ngModel)]="addGroupForm.isActive" name="isActive" >
+        <option *ngFor="let item of isActiveValues" value={{item.id}}>
+          {{item.name}}
+        </option>
+      </select>
+    </div>
+    <div class="col-sm-1">
+      <button type="button" class="btn btn-primary" (click) = "save()">Save</button>
+    </div>
+    <div class="col-sm-1">
+      <button type="button" class="btn btn-primary" (click)= "close()">Close</button>
+    </div>
+  </div>
+</form>
+</div>
+

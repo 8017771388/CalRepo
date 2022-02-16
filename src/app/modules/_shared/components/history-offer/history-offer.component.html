@@ -1,0 +1,231 @@
+<div class="modal-wrapper">
+    
+    <!-- <div class="modal-header">
+        
+        <button (click)="exportPDF()" class="print-btn">
+            PRINT
+        </button>
+       
+    </div> -->
+    <div class="modal-body goal-body" id="export">
+        <div class="container-fluid data-container">
+            <div class="row">
+                <div class="col-12 heading">
+                    <h1 class="" *ngIf="inputData">{{title}} - {{dateFormat(inputData.createDate)}} </h1>
+                    <span class="print-icon" (click)="exportPDF()"><i class="fa fa-print" aria-hidden="true"></i></span>
+                    <button (click)="bsModalRef.hide()" class="cross-btn">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+                
+            </div>
+            <div class="row" *ngIf="inputData">
+                <div class="col-12 margin-top5 confirm-txt">
+                    <table class="first-table">
+                        <thead>
+                            <tr>
+                                <th>Advisory Options</th>
+                                <th>Financial Details(GDC)</th>
+                                <th colspan="3">Financial Details(AUM)</th>
+                                <th colspan="2">Financial Summary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Advisory Name</strong>
+                                    <p>{{inputData.advisorTeamName}}</p>
+                                </td>
+                                <td>
+                                    <strong>T12 Advisory GDC</strong>
+                                    <p>{{inputData.t12AdvisoryGDC != 0  ? inputData.t12AdvisoryGDC : '-'}} </p>
+                                </td>
+    
+                                <td>
+                                    <strong>Advisory AUM</strong>
+                                    <p><span>{{inputData.advisoryAUMValue != 0 ? inputData.advisoryAUMValue : '-'}}</span><span>{{inputData.advisoryAUMpercentage}}</span><span *ngIf="inputData.advisoryAUMpercentage != undefined">%</span> </p>
+                                </td>
+                                <td>
+                                    <strong>Variable Annuities</strong>
+                                    <p><span>{{inputData.variableAnnuitiesValue != 0 ? inputData.variableAnnuitiesValue : '-'}}</span><span>{{inputData.variableAnnuitiesPercentage != 0 ? inputData.variableAnnuitiesPercentage : ''}}</span><span *ngIf="inputData.variableAnnuitiesPercentage != 0">%</span> </p>
+                                </td>
+                                <td>
+                                    <strong>Fixed Income</strong>
+                                    <p><span>{{inputData.fixedIncomeValue != 0 ? inputData.fixedIncomeValue : '-'}}</span><span>{{inputData.fixedIncomePercentage != 0 ? inputData.fixedIncomePercentage : ''}}</span><span *ngIf="inputData.fixedIncomePercentage != 0">%</span> </p>
+                                </td>
+    
+                                <td><strong>VAUM</strong>
+                                    <p>{{inputData.vaum != 0 ? inputData.vaum : '-'}} </p></td>
+                                    <td><strong>T12 GDC</strong>
+                                        <p>{{inputData.t12GDCTotal != 0 ? inputData.t12GDCTotal : '-'}} </p></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>No. of Advisors</strong>
+                                    <p> {{inputData.numberOfAdvisors}} </p>
+                                </td>
+                                <td>
+                                    <strong>T12 Brokerage GDC</strong>
+                                    <p>{{inputData.t12BrokerageGDC != 0 ? inputData.t12BrokerageGDC : '-'}} </p>
+                                </td>
+    
+                                <td>
+                                    <strong>Brokerage AUM</strong>
+                                    <p><span>{{inputData.brokerageAUMValue != 0 ? inputData.brokerageAUMValue : '-'}}</span><span>{{inputData.brokerageAUMPercentage }}</span><span *ngIf="inputData.brokerageAUMPercentage != undefined">%</span> </p>
+                                </td>
+                                <td><strong>Fixed Annuities</strong>
+                                    <p><span>{{inputData.fixedAnnuitiesValue != 0 ? inputData.fixedAnnuitiesValue : '-'}} </span><span>{{inputData.fixedAnnuitiesPercentage != 0 ? inputData.fixedAnnuitiesPercentage : ''}}</span><span *ngIf="inputData.fixedAnnuitiesPercentage != 0">%</span></p></td>
+                                <td>
+                                    <strong>AIs, UITs and Cash</strong>
+                                    <p><span>{{inputData.aIsUITCashValue != 0 ? inputData.aIsUITCashValue : '-'}}</span><span>{{inputData.aIsUITCashPercentage != 0 ? inputData.aIsUITCashPercentage : ''}}</span><span *ngIf="inputData.aIsUITCashPercentage != 0">%</span> </p>
+                                </td>
+                                <td>
+                                    <strong>Ramp</strong>
+                                    <p><span>{{inputData.ramp != 0 ? inputData.ramp+'%' : '-'}}</span> </p>
+                                </td>
+    
+                                <td><strong>GDC ROA: (bps)</strong>
+                                    <p>{{inputData.gdcroa != 0 ? inputData.gdcroa : '-'}} </p></td>
+                                    
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Prior Firm Type</strong>
+                                    <p> {{inputData.priorFirmType != 0 ? inputData.priorFirmType : '-'}} </p>
+                                </td>
+                                <td>
+                                    
+                                </td>
+    
+                                <td>
+                                    <strong>MFs (Custodied)</strong>
+                                    <p><span>{{inputData.mFsCustodiedValue != 0 ? inputData.mFsCustodiedValue : '-'}}</span><span>{{inputData.mFsCustodiedPercentage != 0 ? inputData.mFsCustodiedPercentage : ''}}</span><span *ngIf="inputData.mFsCustodiedPercentage != 0">%</span> </p>
+                                </td>
+                                <td><strong>Fixed Annuities</strong>
+                                    <p><span>{{inputData.fixedAnnuitiesValue != 0 ? inputData.fixedAnnuitiesValue : '-'}} </span><span>{{inputData.fixedIncomePercentage != 0 ? inputData.fixedIncomePercentage : ''}}</span><span *ngIf="inputData.fixedIncomePercentage != 0">%</span></p></td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    <strong>EAUM</strong>
+                                    <p><span>{{inputData.eaum != 0 ? inputData.eaum : '$0'}}</span> </p>
+                                </td>
+    
+                                <td>
+                                    
+                                </td>
+                                    
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Prior Firm Name</strong>
+                                    <p> {{inputData.priorFirmName != undefined ? inputData.priorFirmName : '-'}} </p>
+                                </td>
+                                <td>
+                                    
+                                </td>
+    
+                                <td>
+                                    <strong>MFs (Direct)</strong>
+                                    <p><span>{{inputData.mFsDirectValue != 0 ? inputData.mFsDirectValue : '-'}}</span><span>{{inputData.mFsDirectPercentage != 0 ? inputData.mFsDirectPercentage : ''}}</span><span *ngIf="inputData.mFsDirectPercentage != 0">%</span></p>
+                                </td>
+                                <td><strong>General Securities</strong>
+                                    <p><span>{{inputData.generalSecuritiesValue != 0 ? inputData.generalSecuritiesValue : '-'}} </span><span>{{inputData.generalSecuritiesPercentage != 0 ? inputData.generalSecuritiesPercentage : ''}}</span><span *ngIf="inputData.generalSecuritiesPercentage != 0">%</span></p></td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    
+                                </td>
+    
+                                <td>
+                                    
+                                </td>
+                                    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 OfferPageExport margin-top5 confirm-txt">
+                    <dx-data-grid #gridContainer
+                        id="gridContainer"
+                        class="gridContainerOC"
+                        [dataSource]="outputOffer"
+                        [showColumnLines]="false"
+                        [showRowLines]="true"
+                        [showBorders]="true"
+                        [rowAlternationEnabled]="false"
+                        [columnAutoWidth]="true" 
+                        [showColumnHeaders]="false"
+                        [columnMinWidth]="320"
+                        [columnResizingMode]="['widget']"
+                        >
+    
+                        <dxo-paging [enabled]="false"></dxo-paging>
+    
+                        <dxi-column [allowFiltering]="false"
+                                    [allowSorting]="false"
+                                        dataField="rowName" 
+                                        [width]="300"
+                                        [fixed]="true" fixedPosition="left"
+                                        alignment="left">
+                        </dxi-column>
+    
+                        <dxi-column [allowFiltering]="false"
+                                    [allowSorting]="false"
+                                    dataField="value1"
+                                    alignment="right"
+                                    *ngIf="firstColumn"
+                                    [width]="320"
+                                    > 
+                                                                            
+                        </dxi-column>
+    
+                        <dxi-column [allowFiltering]="false"
+                                    [allowSorting]="false"
+                                    dataField="value2"
+                                    alignment="right"
+                                    *ngIf="secondColumn"
+                                    [width]="320"
+                                    >                                        
+                        </dxi-column>
+    
+                        <dxi-column [allowFiltering]="false"
+                                    [allowSorting]="false"
+                                    dataField="value3"
+                                    alignment="right"
+                                    *ngIf="thirdColumn"
+                                    [width]="320"
+                                    > 
+                                                
+                        </dxi-column>
+                        
+                        
+                    </dx-data-grid>
+                </div>
+            </div>
+            <div class="row bottom-disclaimer">
+                <div class="col-2 image-container">
+                    <span class="export-offer-disclaimer-logo"> </span>
+                </div>
+                <div class="col-10 text-container">
+                    <span>The above is intended solely for purposes of discussion and is considered illustrative. This is not intended, nor should it be construed as, a legally binding obligation or a finalized commitment to provide transition assistance. The above does not purport to summarize all the terms, conditions and other provisions with respect to the transaction referred to herein, and all terms referred to herein are subject to change based on, AUM and GDC reporting, prevailing market conditions, as well as other factors that are to be considered in LPL’s sole discretion.</span>
+                </div>
+                
+            </div>
+        </div> 
+       
+    </div>
+
+<!-- <div class="modal-footer custom-footer">
+    <div class="col-12 text-center">
+        <input type="button" class="btn cancel-btn mid-pad" value="{{cancelBtnTxt}}" name="Cancel" (click)="declineConfirmation()">
+        <input type="button" class="btn custom-primary" value="{{confirmBtnTxt}}" name="Add" (click)="sendConfirmation()">
+    </div>
+</div> -->
+</div>
+
+
+

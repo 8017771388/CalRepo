@@ -1,0 +1,41 @@
+<div class="admin-container container-fluid">
+<div class="row">
+
+    <div class="col-2 side-bar-back padding-l-40">
+        <nav class="navbar">
+            
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" *ngFor="let pageName of menuItem" (click)="loadPage(pageName)" [ngClass]="{'active': isActive(pageName)}">{{pageName}}</a></li>
+                <!--<li class="nav-item"><a class="nav-link" (click)="loadPage('assumptionTables')" [ngClass]="{'active': currentTab.active}">Assumption Tables</a></li>-->
+               <!-- <li class="nav-item"><a class="nav-link" (click)="loadPage('assignedAssumptions')" >Assigned Assumptions</a></li>
+                 <li class="nav-item"><a>Package Groups</a></li> 
+                <li class="nav-item"><a class="nav-link" (click)="loadPage('packageGroups')" >Add-Edit</a></li>
+                <li class="nav-item"><a class="nav-link" (click)="loadPage('packageGroupsAssignments')" >Assignments</a></li>
+                <li class="nav-item"><a class="nav-link" (click)="loadPage('auditLog')">Audit Log</a></li>-->
+            </ul>
+        </nav>
+        <br>
+    </div>
+    <!--<div class="col-3">
+        <app-admin-submenu></app-admin-submenu>
+    </div>-->
+    <div  class="col-10 bg-white-min-height">
+        <app-assumption-table *ngIf="currentTab== 'Assumption Tables'"></app-assumption-table>
+    </div>
+    <!-- <div *ngIf="currentTab=='models'" class="col-8">
+        <app-models></app-models>
+    </div>
+    <div *ngIf="currentTab=='assignedAssumptions'" class="col-8">
+        <app-table-relationships></app-table-relationships>
+    </div>
+    <div *ngIf="currentTab=='packageGroups'" class="col-8">
+        <app-package-groups></app-package-groups>
+    </div>
+    <div *ngIf="currentTab=='packageGroupsAssignments'" class="col-8">
+        <app-assignments></app-assignments>
+    </div>
+    <div *ngIf="currentTab=='auditLog'" class="col-8">
+        <app-auditlog></app-auditlog>
+    </div> -->
+</div>
+</div>

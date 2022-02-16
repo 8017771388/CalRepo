@@ -1,0 +1,46 @@
+  <div class="bordered">
+    <form #addTableForm="ngForm">
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Category</label>
+      <div class="col-sm-5">
+        <select class="form-control" [(ngModel)]="tableForm.tableCategory" name="tableCategory" >
+          <option *ngFor="let item of lookupTableCategories" value={{item.id}}>
+            {{item.name}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Table Name</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" [(ngModel)]="tableForm.name" name="catagoryname">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Type</label>
+      <div class="col-sm-5">
+        <select class="form-control" [(ngModel)]="tableForm.tableType" name="tableType" >
+          <option *ngFor="let item of tableTypes" value={{item.id}}>
+            {{item.name}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Is Active</label>
+      <div class="col-sm-5">
+        <select class="form-control" [(ngModel)]="tableForm.isrequired" name="isrequired">
+          <option *ngFor="let val of isrequiredValues" value={{val.id}}>
+            {{val.name}}
+          </option>
+        </select>
+      </div>
+            <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" (click)= "close()">Close</button>
+      </div>
+      <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" (click) = "save()">Save</button>
+      </div>
+    </div>
+  </form>
+</div>
